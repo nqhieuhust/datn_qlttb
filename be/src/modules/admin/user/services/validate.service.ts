@@ -36,7 +36,7 @@ export class ValidateService {
 					}
 				});
 				if (!_.isEmpty(user)) {
-					errorData.username = newArrayError(errorData.email, 'User name is existed');
+					errorData.username = newArrayError(errorData.email, 'Tên tài khoản đã tồn tại');
 				}
 			}
 			if (!regexPass.test(userDto.password)) {
@@ -52,10 +52,10 @@ export class ValidateService {
 
 				if (!_.isEmpty(userEmail)) {
 					if(isCreated) {
-						errorData.email =  newArrayError(errorData.email, 'Email is existed');
+						errorData.email =  newArrayError(errorData.email, 'Email đã tồn tại');
 					}
 					else if(userEmail.id === user_id) {
-						errorData.email =  newArrayError(errorData.email, 'Email is existed');
+						errorData.email =  newArrayError(errorData.email, 'Email đã tồn tại');
 					}
 				}
 			}
@@ -73,10 +73,10 @@ export class ValidateService {
 				});
 				if (!_.isEmpty(user)) {
 					if(isCreated) {
-						errorData.phone =  newArrayError(errorData.phone, 'Phone is existed');
+						errorData.phone =  newArrayError(errorData.phone, 'Số điện thoại đã tồn tại');
 					}
 					else if(user.id === user_id) {
-						errorData.phone =  newArrayError(errorData.phone, 'Phone is existed');
+						errorData.phone =  newArrayError(errorData.phone, 'Số điện thoại đã tồn tại');
 					}
 				}
 			}

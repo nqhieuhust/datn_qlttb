@@ -261,12 +261,12 @@ function DepartmentPage() {
         if (type == 1) {
             if (!form.deName || form.deName === '') newErrors.deName = 'Tên Khoa/Phòng không được để trống!';
             if (!form.address || form.address === '') newErrors.address = 'Địa chỉ không được để trống!';
-            if (!form.manager || form.manager === '') newErrors.manager = 'Người quản lý không được để trống!';
+            if (!form.manager || form.manager === '') newErrors.manager = 'Trưởng khoa/phòng không được để trống!';
         }
         if (type == 2) {
             if (!deNameEdit || deNameEdit === '') newErrors.deNameEdit = 'Tên Khoa/Phòng không được để trống!';
             if (!addressEdit || addressEdit === '') newErrors.addressEdit = 'Địa chỉ không được để trống!';
-            if (!managerEdit || managerEdit === '') newErrors.managerEdit = 'Người quản lý không được để trống!';
+            if (!managerEdit || managerEdit === '') newErrors.managerEdit = 'Trưởng khoa/phòng không được để trống!';
 
         }
 
@@ -304,11 +304,11 @@ function DepartmentPage() {
                                             <th className="border-0">STT</th>
                                             <th className="border-0">Tên khoa/Phòng</th>
                                             <th className="border-0">Địa chỉ</th>
-                                            <th className="border-0">Người quản lý</th>
+                                            <th className="border-0">Trưởng khoa/phòng</th>
                                             
                                            {role === 1 &&  
 										   <>
-										   	<th className="border-0">Ngày tạo</th>
+										   	{/* <th className="border-0">Ngày tạo</th> */}
 											<th className="border-0">Hành động</th>
 										   </>
 										   }
@@ -338,7 +338,7 @@ function DepartmentPage() {
                                                             
                                                             {role === 1 && 
 															<>
-																<td style={ { minWidth: 200 }}>{moment(item.created_at).format("DD/MM/yyyy")}</td>
+																{/* <td style={ { minWidth: 200 }}>{moment(item.created_at).format("DD/MM/yyyy")}</td> */}
 																<td className="d-flex justify-between align-items-center">
 																	<button className={'btn btn-sm btn-info text-nowrap'} style={{ padding: '3px 8px', width: 65 }} onClick={() => handleEditOn(item.id)}>Sửa</button>
 																	<button className={'btn btn-sm btn-danger text-nowrap ml-2'} style={{ padding: '3px 8px', width: 65 }} 
@@ -421,10 +421,10 @@ function DepartmentPage() {
                             </Form.Group>
 
                             <Form.Group style={{ marginTop: 15 }}>
-                                <Form.Label>Người quản lý:</Form.Label>
+                                <Form.Label>Trưởng khoa/phòng:</Form.Label>
                                 <Form.Control
                                     type="text"
-                                    placeholder="Nhập tên người quản lý"
+                                    placeholder="Nhập tên Trưởng khoa/phòng"
                                     onChange={(e) => { setField('manager', e.target.value); setManager(e.target.value) }}
                                     isInvalid={!!errors.manager}
                                 />
@@ -487,10 +487,10 @@ function DepartmentPage() {
                                     </Form.Group>
 
                                     <Form.Group style={{ marginTop: 15 }}>
-                                        <Form.Label>Người quản lý:</Form.Label>
+                                        <Form.Label>Trưởng khoa/phòng:</Form.Label>
                                         <Form.Control
                                             type="text"
-                                            placeholder="Nhập tên người quản lý"
+                                            placeholder="Nhập tên Trưởng khoa/phòng"
                                             value={managerEdit || ''}
                                             onChange={(e) => { setManagerEdit(e.target.value); setField('managerEdit', e.target.value) }}
                                             isInvalid={!!errors.managerEdit}

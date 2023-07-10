@@ -16,7 +16,7 @@ export class UpdateProviderDto {
 	@ApiProperty()
     @IsString()
     @IsOptional()
-    representation: string;
+    representator: string;
 
 	@ApiProperty()
     @IsString()

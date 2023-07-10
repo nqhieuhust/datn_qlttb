@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Modal, Form } from "react-bootstrap";
 import { MDBSpinner } from "mdb-react-ui-kit";
 import { Card, Table, Container, Row, Col } from "react-bootstrap";
-import { Pagination, Typography, message } from "antd";
+import { Pagination, message } from "antd";
 import { FilterUser } from "./filter";
 import { timeDelay } from "api/common";
 import { useDispatch } from "react-redux";
@@ -98,6 +98,7 @@ function UserPage() {
       setLoading(true);
       dispatch(toggleShowLoading(true));
       const response = await userApi.getUsers(filters);
+      // console.log(response);
       await timeDelay(1000);
       if (response.status === 200 || response.status === "success") {
         setUsers(response.data.users);
@@ -335,8 +336,8 @@ function UserPage() {
 
   const roleConfig = [
     { id: 1, value: "Quản trị hệ thống" },
-    { id: 2, value: "Quản lý thiết bị" },
-    { id: 3, value: "Quản lý Khoa/Phòng" },
+    { id: 2, value: "Quản lý phòng thiết bị" },
+    { id: 3, value: "Nhân viên Khoa/Phòng" },
   ];
 
   const statusConfig = [

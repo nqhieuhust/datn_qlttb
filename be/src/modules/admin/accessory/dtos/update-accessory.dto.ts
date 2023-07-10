@@ -11,7 +11,7 @@ export class UpdateAccessoryDto {
 	@IsOptional()
     @IsNumber()
     @ApiProperty()
-    quantity: number
+    quantity: number 
 
 	@IsOptional()
     @IsString()

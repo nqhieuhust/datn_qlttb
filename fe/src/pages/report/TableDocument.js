@@ -44,7 +44,7 @@ const TableDocument = ({reportData}) => {
         </View>
 
         <View style={[tableColStyle, row3]}>
-          <Text style={tableCellStyle}>{device.manager_device}</Text>
+          <Text style={tableCellStyle}>{device.user.full_name}</Text>
         </View>
 
         <View style={[tableColStyle, row4]}>

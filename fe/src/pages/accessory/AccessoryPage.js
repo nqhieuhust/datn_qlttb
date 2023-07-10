@@ -263,7 +263,6 @@ function AccessoryPage() {
   const statusConfig = [
     { id: 1, value: "Đang còn" },
     { id: 2, value: "Đã hết" },
-  
   ];
 
   const setField = (field, value) => {
@@ -299,8 +298,8 @@ function AccessoryPage() {
     if (type == 2) {
       if (!accessory_name || accessory_name === "")
         newErrors.accessory_name = "Tên vật tư không được để trống!";
-      if (!quantity || quantity === "")
-        newErrors.quantity = "Số lương không được để trống!";
+      // if (!quantity || quantity === "")
+      //   newErrors.quantity = "Số lượng không được để trống!";
       if (!unit || unit === "")
         newErrors.unit = "Đơn vị tính không được để trống!";
       if (!import_date || import_date === "")
@@ -356,8 +355,8 @@ function AccessoryPage() {
                       <th className="border-0">Số lượng</th>
                       <th className="border-0">Đơn vị</th>
                       <th className="border-0">Ngày nhập</th>
-                      <th className="border-0">Trạng thái</th>
                       <th className="border-0">Nhà cung cấp</th>
+                      <th className="border-0">Trạng thái</th>
                       {role !== 3 && <th className="border-0">Hành động</th>}
                     </tr>
                   </thead>
@@ -383,21 +382,20 @@ function AccessoryPage() {
                             {item.accessory_name || "N/A"}
                           </td>
                           <td className="text-nowrap" style={{ minWidth: 100 }}>
-                            {item.quantity || "N/A"}
+                            {item.quantity == 0 ? 0 : item.quantity || "N/A"}
                           </td>
-                          <td className="text-break" style={{ minWidth: 150 }}>
+                          <td className="text-break" style={{ minWidth: 100 }}>
                             {item.unit || "N/A"}
                           </td>
-                          <td className="text-nowrap" style={{ minWidth: 100 }}>
+                          <td className="text-nowrap" style={{ minWidth: 150 }}>
                             {moment(item.import_date).format("DD/MM/YYYY")}
-                          </td>
-                          <td style={{ minWidth: 80 }}>
-                            {item.status === 1 && "Đang còn"}
-                            {item.status === 2 && "Đã hết"}
-                    
                           </td>
                           <td className="text-break" style={{ minWidth: 250 }}>
                             {item.provider?.provider_name || "N/A"}
+                          </td>
+                          <td className={item.status === 1 ? "text-success" : "text-danger"} style={{ minWidth: 100 }}>
+                            {item.status === 1 && "Đang còn"}
+                            {item.status === 2 && "Đã hết"}
                           </td>
                           {role !== 3 && (
                             <td className="d-flex justify-between align-items-center">
@@ -699,9 +697,9 @@ function AccessoryPage() {
                     placeholder="Nhập tên vật tư"
                     value={accessory_name || ""}
                     onChange={(e) => {
-                    setAccessoryName(e.target.value)
-                    setField("accessory_name", e.target.value)}
-                    }
+                      setAccessoryName(e.target.value);
+                      setField("accessory_name", e.target.value);
+                    }}
                     isInvalid={!!errors.accessory_name}
                   />
                   {errors.accessory_name && (
@@ -725,9 +723,9 @@ function AccessoryPage() {
                         placeholder="Nhập số lượng"
                         value={quantity || ""}
                         onChange={(e) => {
-                          setQuantity(e.target.value)
-                          setField("quantity", e.target.value)}
-                        }
+                          setQuantity(e.target.value);
+                          setField("quantity", e.target.value);
+                        }}
                         isInvalid={!!errors.quantity}
                       />
                       {errors.quantity && (
@@ -751,8 +749,8 @@ function AccessoryPage() {
                         value={unit || ""}
                         onChange={(e) => {
                           setUnit(e.target.value);
-                          setField("unit", e.target.value)}
-                        }
+                          setField("unit", e.target.value);
+                        }}
                         isInvalid={!!errors.unit}
                       >
                         <option className="d-none" value="">
@@ -788,9 +786,8 @@ function AccessoryPage() {
                         value={import_date || ""}
                         onChange={(e) => {
                           setImportDate(e.target.value);
-                          setField("import_date", e.target.value)
-                        }
-                        }
+                          setField("import_date", e.target.value);
+                        }}
                         isInvalid={!!errors.import_date}
                       />
                       {errors.import_date && (
@@ -813,9 +810,9 @@ function AccessoryPage() {
                         as="select"
                         value={status || ""}
                         onChange={(e) => {
-                          setStatus(e.target.value)
-                          setField("status", e.target.value)}
-                        }
+                          setStatus(e.target.value);
+                          setField("status", e.target.value);
+                        }}
                         isInvalid={!!errors.status}
                       >
                         {statusConfig &&
@@ -846,8 +843,8 @@ function AccessoryPage() {
                     value={provider || ""}
                     onChange={(e) => {
                       setProvider(e.target.value);
-                      setField("provider_id", e?.target.value)}
-                    }
+                      setField("provider_id", e?.target.value);
+                    }}
                     isInvalid={!!errors.provider_id}
                   >
                     {providerConfig.length > 0 &&

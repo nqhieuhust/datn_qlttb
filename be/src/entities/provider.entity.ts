@@ -14,8 +14,8 @@ export class Provider {
     @Column('varchar', { name: 'address', length: 255 })
     address: string;
 
-    @Column('varchar', { name: 'representation', length: 255 })
-    representation: string;
+    @Column('varchar', { name: 'representator', length: 255 })
+    representator: string;
 
     @Column('varchar', { name: 'mobile' })
     mobile: string;

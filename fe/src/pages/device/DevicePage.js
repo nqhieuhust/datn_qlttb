@@ -525,8 +525,8 @@ function DevicePage() {
     if (type == 1) {
       if (!form.device_name || form.device_name === "")
         newErrors.device_name = "Tên thiết bị không được để trống!";
-      if (!form.code || form.code === "")
-        newErrors.code = "Mã thiết bị không được để trống!";
+      // if (!form.code || form.code === "")
+      //   newErrors.code = "Mã thiết bị không được để trống!";
       if (!form.model || form.model === "")
         newErrors.model = "Số model thiết bị không được để trống!";
       // if (!form.serial || form.serial === "")
@@ -535,7 +535,10 @@ function DevicePage() {
       //   newErrors.manager_device = "Người quản lý thiết bị không được để trống!";
       if (!form.user_id || form.user_id === "")
         newErrors.user_id = "Người quản lý thiết bị không được để trống!";
-      // if ( !form.manufacture || form.manufacture === '' ) newErrors.manufacture = 'Manufacture cannot be blank!';
+      if ( !form.manufacture || form.manufacture === '' ) 
+        newErrors.manufacture = 'Hãng sản xuất không được để trống!';
+      if ( !form.countries || form.countries === '' ) 
+        newErrors.countries = 'Nơi xuất xứ không được để trống!';
       // if (!form.avatar || form.avatar === '') newErrors.avatar = 'Avatar cannot be blank!';
       if (!form.status || form.status === "")
         newErrors.status = "Trạng thái không được để trống!";
@@ -582,9 +585,11 @@ function DevicePage() {
 
   const optionsBroken = [
     { value: 1, label: "Hỏng dây nguồn" },
-    { value: 2, label: "Màn hình không hiển thị" },
-    { value: 4, label: "Màn hình không hiển thị" },
-    { value: 3, label: "Hỏng bóng đèn" },
+    { value: 2, label: "Nút bấm bị bong" },
+    { value: 3, label: "Nhiễu đầu dò" },
+    { value: 4, label: "Hỏng bóng đèn" },
+    { value: 5, label: "Hỏng phím chức năng" },
+    { value: 6, label: "Màn hình không hiển thị" },
   ];
 
   const handleUpload = async (e) => {
@@ -1458,7 +1463,7 @@ function DevicePage() {
                         type="text"
                         placeholder="Nhập số serial"
                         value={form.serial}
-                        readOnly={true}
+                        readOnly={isShowDetail}
                         onChange={(e) => {
                           if (!isShowDetail) setField("serial", e.target.value);
                         }}

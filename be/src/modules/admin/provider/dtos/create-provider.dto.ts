@@ -16,7 +16,7 @@ export class CreateProviderDto {
 	@ApiProperty()
     @IsString()
     @IsNotEmpty()
-    representation: string;
+    representator: string;
 
 	@ApiProperty()
     @IsString()

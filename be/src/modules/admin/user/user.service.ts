@@ -88,9 +88,10 @@ export class UserService {
 				conditions.id = Equal(filters.id);
 			}
 		} 
-		else {
-			conditions.id = Not(user_id)
-		}
+		// else {
+		// 	conditions.id = Not(user_id)
+		// }
+		
 		if (filters.username && filters.username.trim() != '') conditions.username = Like(`%${filters.username.trim()}%`);
 		if (filters.email && filters.email.trim() != '') conditions.email =  Like(`%${filters.email.trim()}%`);
 		if (filters.mobile && filters.mobile.trim() != '') conditions.mobile =  Like(`%${filters.mobile.trim()}%`);

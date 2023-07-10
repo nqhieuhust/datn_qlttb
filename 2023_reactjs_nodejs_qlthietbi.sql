@@ -186,7 +186,7 @@ CREATE TABLE `providers` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `provider_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `address` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `representation` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `representator` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `mobile` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -198,11 +198,11 @@ CREATE TABLE `providers` (
 -- Records of providers
 -- ----------------------------
 BEGIN;
-INSERT INTO `providers` (`id`, `provider_name`, `address`, `representation`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (3, 'Tổng Công ty Thiết bị Y tế ', '89 Lương Định Của, Đống Đa, Hà Nội', 'Nguyễn Văn AA', '0438235679', 'info@vinamed.com.vn', '2023-06-21 14:34:12', '2023-06-24 10:56:10');
-INSERT INTO `providers` (`id`, `provider_name`, `address`, `representation`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (4, 'Công Ty Thiết Bị Y Tế Phương Mai Hà Nội', 'Số 4 Phương Mai, Đống Đa, Hà Nội', 'Nguyễn Văn B', '0983062890', 'phuongmaitbyt@gmail.com', '2023-06-21 14:40:50', '2023-06-21 14:40:50');
-INSERT INTO `providers` (`id`, `provider_name`, `address`, `representation`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (5, 'Hanoi IEC - Doanh Nghiệp Thiết Bị Y Tế Tại Hà Nội ', 'Số 35, Lô 1A, Trung Yên 11B, Trung Hòa, Cầu Giấy, Hà Nội', 'Nguyễn Văn C', '0838786073', 'biz@hanoi-iec.com', '2023-06-21 14:41:15', '2023-06-21 14:41:15');
-INSERT INTO `providers` (`id`, `provider_name`, `address`, `representation`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (6, 'Hanoi IEC - Doanh Nghiệp Thiết Bị Y Tế Tại Hà Nội', 'Số 4 Phương Mai, Đống Đa, Hà Nội', 'Nguyễn Văn Tét', '0123456789', 'info@vinamed.com.vn', '2023-06-21 14:42:10', '2023-06-23 10:51:26');
-INSERT INTO `providers` (`id`, `provider_name`, `address`, `representation`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (7, 'Tổng Công ty Thiết bị Y tế Việt Nam – CTCP Vinamed', 'Số 35, Lô 1A, Trung Yên 11B, Trung Hòa, Cầu Giấy, Hà Nội', 'Nguyễn Văn Tét Hai', '0123456789', 'phuongmaitbyt@gmail.com', '2023-06-21 14:42:42', '2023-06-21 14:42:42');
+INSERT INTO `providers` (`id`, `provider_name`, `address`, `representator`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (3, 'Tổng Công ty Thiết bị Y tế ', '89 Lương Định Của, Đống Đa, Hà Nội', 'Nguyễn Văn AA', '0438235679', 'info@vinamed.com.vn', '2023-06-21 14:34:12', '2023-06-24 10:56:10');
+INSERT INTO `providers` (`id`, `provider_name`, `address`, `representator`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (4, 'Công Ty Thiết Bị Y Tế Phương Mai Hà Nội', 'Số 4 Phương Mai, Đống Đa, Hà Nội', 'Nguyễn Văn B', '0983062890', 'phuongmaitbyt@gmail.com', '2023-06-21 14:40:50', '2023-06-21 14:40:50');
+INSERT INTO `providers` (`id`, `provider_name`, `address`, `representator`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (5, 'Hanoi IEC - Doanh Nghiệp Thiết Bị Y Tế Tại Hà Nội ', 'Số 35, Lô 1A, Trung Yên 11B, Trung Hòa, Cầu Giấy, Hà Nội', 'Nguyễn Văn C', '0838786073', 'biz@hanoi-iec.com', '2023-06-21 14:41:15', '2023-06-21 14:41:15');
+INSERT INTO `providers` (`id`, `provider_name`, `address`, `representator`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (6, 'Hanoi IEC - Doanh Nghiệp Thiết Bị Y Tế Tại Hà Nội', 'Số 4 Phương Mai, Đống Đa, Hà Nội', 'Nguyễn Văn Tét', '0123456789', 'info@vinamed.com.vn', '2023-06-21 14:42:10', '2023-06-23 10:51:26');
+INSERT INTO `providers` (`id`, `provider_name`, `address`, `representator`, `mobile`, `email`, `created_at`, `updated_at`) VALUES (7, 'Tổng Công ty Thiết bị Y tế Việt Nam – CTCP Vinamed', 'Số 35, Lô 1A, Trung Yên 11B, Trung Hòa, Cầu Giấy, Hà Nội', 'Nguyễn Văn Tét Hai', '0123456789', 'phuongmaitbyt@gmail.com', '2023-06-21 14:42:42', '2023-06-21 14:42:42');
 COMMIT;
 
 -- ----------------------------
