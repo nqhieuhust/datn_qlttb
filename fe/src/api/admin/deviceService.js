@@ -1,4 +1,4 @@
-import { buildFilter } from "api/common";
+import { buildFilter } from "../../common";
 import axiosClient from "../axiosClient";
 
 const deviceApi = {

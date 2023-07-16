@@ -13,7 +13,7 @@ import moment from "moment";
 import { Pagination, message } from "antd";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "redux/actions/common-action";
-import { timeDelay } from "api/common";
+import { timeDelay } from "../../common";
 import { FilterDepartment } from "./filter";
 
 function DepartmentPage() {
@@ -107,6 +107,7 @@ function DepartmentPage() {
             setLoadingForm(true);
 			dispatch(toggleShowLoading(true));
             const response = await departmentApi.getDepartmentById(id);
+            await timeDelay(1000);
             if (response.status === 'success' || response.status === 200) {
                 setIdEdit(response.data.id);
                 setDeNameEdit(response.data.department_name);

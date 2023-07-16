@@ -1,7 +1,7 @@
 import { message } from "antd";
 import axiosClient from "api/axiosClient";
-import { timeDelay } from "api/common";
-import { buildFilter } from "api/common";
+import { timeDelay } from "../../common";
+import { buildFilter } from "../../common";
 import { toggleShowLoading } from "redux/actions/common-action";
 
 

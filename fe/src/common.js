@@ -48,7 +48,7 @@ export const timeDelay = async (delay) => {
 	return new Promise(res => setTimeout(res, delay))
 }
 
-export const setField = (form,field, value, setForm) => {
+export const setField = (form, field, value, setForm) => {
 	setForm({
 		...form,
 		[field]: value

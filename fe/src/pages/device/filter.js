@@ -1,5 +1,5 @@
 import { Input, Select } from "antd";
-import { setField } from "../../api/common";
+import { setField } from "../../common";
 import { useState } from "react";
 import { Form } from "react-bootstrap";
 import { useEffect } from "react";
@@ -111,7 +111,9 @@ export const FilterDevice = (props) => {
               className="form-control"
               value={form.device_name}
               placeholder="Nhập tên thiết bị"
-              onChange={(e) => setField(form, "device_name", e.target.value, setForm)}
+              onChange={(e) =>
+                setField(form, "device_name", e.target.value, setForm)
+              }
             />
           </Form.Group>
         </div>

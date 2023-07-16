@@ -2,8 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { Page, Text, View, Document } from "@react-pdf/renderer";
 
-const TableDocument = ({reportData}) => {
- 
+const TableDocument = ({ reportData, department_name }) => {
+  console.log(department_name);
 
   const createTableHeader = () => {
     return (
@@ -32,7 +32,7 @@ const TableDocument = ({reportData}) => {
   };
 
   const createTableRow = (device) => {
-    console.log(device);
+    // console.log(device);
     return (
       <View style={tableRowStyle}>
         <View style={[firstTableColStyle, row1]}>
@@ -49,23 +49,21 @@ const TableDocument = ({reportData}) => {
 
         <View style={[tableColStyle, row4]}>
           <Text style={tableCellStyle}>
-          
             {(() => {
-      switch (device.status) {
-        case 1:
-          return 'Đang hoạt động';
-        case 2:
-          return 'Đang báo hỏng';
-        case 3:
-          return 'Đang sửa chữa';
-        case 4:
-          return 'Đang bảo hành';
-        default:
-          return null;
-      }
-    })()}
-          
-         </Text>
+              switch (device.status) {
+                case 1:
+                  return "Đang hoạt động";
+                case 2:
+                  return "Đang báo hỏng";
+                case 3:
+                  return "Đang sửa chữa";
+                case 4:
+                  return "Đang bảo hành";
+                default:
+                  return null;
+              }
+            })()}
+          </Text>
         </View>
       </View>
     );
@@ -74,12 +72,18 @@ const TableDocument = ({reportData}) => {
   return (
     <Document>
       <Page style={pageStyle} size="A4" orientation="portrait">
-        <View>
-          <Text style={{fontFamily: 'Roboto Regular'}}>Bệnh viện:...</Text>
-          <Text >Khoa/Phòng:......</Text>
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View>
+            <Text style={{ fontFamily: "Roboto Regular" }}>Bệnh viện Bạch Mai</Text>
+            <Text style={{ fontFamily: "Roboto Regular" }}>{department_name}</Text>
+          </View>
+          <View style={{ flexDirection: "column", alignItems: "center" }}>
+            <Text style={{ fontFamily: "Roboto Regular" }}> Cộng hòa xã hội chủ nghĩa Việt Nam</Text>
+            <Text style={{ fontFamily: "Roboto Regular" }}>Độc lập - Tự do - Hạnh phúc</Text>
+          </View>
         </View>
-        <View>
-          <Text  style={headingStyle}>Báo cáo thống kê thiết bị</Text>
+xzs v        <View>
+          <Text style={headingStyle}>Báo cáo thống kê thiết bị</Text>
         </View>
         <View style={tableStyle}>
           {createTableHeader()}
@@ -105,7 +109,7 @@ const tableStyle = {
   display: "table",
   width: "auto",
   marginTop: 25,
-  fontFamily: "Roboto Light"
+  fontFamily: "Roboto Light",
 };
 
 const tableRowStyle = {
@@ -151,17 +155,17 @@ const firstTableColStyle = {
 };
 
 const row1 = {
-    width: "15%",
-  };
-  const row2 = {
-    width: "40%",
-  };
-  const row3 = {
-    width: "25%",
-  };
-  const row4 = {
-    width: "20%",
-  };
+  width: "15%",
+};
+const row2 = {
+  width: "40%",
+};
+const row3 = {
+  width: "25%",
+};
+const row4 = {
+  width: "20%",
+};
 
 const tableColStyle = {
   borderStyle: "solid",
@@ -176,7 +180,7 @@ const tableCellHeaderStyle = {
   margin: 4,
   fontSize: 12,
   fontWeight: "bold",
-  fontFamily: "Roboto Regular"
+  fontFamily: "Roboto Regular",
 };
 
 const tableCellStyle = {
@@ -190,32 +194,32 @@ const headingStyle = {
   margin: 5,
   marginTop: 20,
   textTransform: "uppercase",
-  fontFamily: "Roboto Bold"
+  fontFamily: "Roboto Bold",
 };
 
 const footer = {
-    textAlign: "right",
-    marginTop: 10,
-}
+  textAlign: "right",
+  marginTop: 10,
+};
 
 const date = {
-    fontSize: "14px",
-    fontFamily: "Roboto Light"
-    // marginRight: 20,
-}
+  fontSize: "14px",
+  fontFamily: "Roboto Light",
+  // marginRight: 20,
+};
 
 const reporter = {
-    marginRight: 20,
-    fontWeight: 1000,
-    fontWeight: "bold",
-    fontSize: "16px",
-    fontFamily: "Roboto Regular"
-}
+  marginRight: 20,
+  fontWeight: 1000,
+  fontWeight: "bold",
+  fontSize: "16px",
+  fontFamily: "Roboto Regular",
+};
 
 const signature = {
-    marginRight: 30,
-    fontSize: "12px",
-    fontFamily: "Roboto Light Italic",
-}
+  marginRight: 30,
+  fontSize: "12px",
+  fontFamily: "Roboto Light Italic",
+};
 
 export default TableDocument;

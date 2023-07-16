@@ -69,18 +69,13 @@ const ReportPage = () => {
     // Gọi API hoặc xử lý dữ liệu để lấy danh sách thiết bị theo khoa/phòng
     // và gán dữ liệu vào reportData
     const fetchDevicesByDepartment = (department) => {
-      // Giả lập việc lấy danh sách thiết bị từ API dựa trên khoa/phòng được chọn
-      // Thay thế bằng logic kết nối và gọi API thực tế
-
       // Lọc danh sách thiết bị dựa trên khoa/phòng
       const devices = listDevice.filter(
         (device) => device.department.department_name === department
       );
-
       return devices;
     };
 
-    // Ví dụ:
     const devicess = fetchDevicesByDepartment(department); // Hàm fetch thiết bị từ API
 
     // Gán dữ liệu vào reportData và hiển thị PDFViewer
@@ -105,7 +100,7 @@ const ReportPage = () => {
       {showReport && (
         <PDFViewer style={viewerStyle}>
           {reportData.length > 0 ? (
-            <TableDocument reportData={reportData} />
+            <TableDocument reportData={reportData} department_name={department} />
           ) : null}
         </PDFViewer>
       )}

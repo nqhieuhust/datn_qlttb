@@ -1,20 +1,4 @@
-/*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v2.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
 import { useLocation, Route, Switch } from "react-router-dom";
 
@@ -37,10 +21,11 @@ function Admin ()
 	const mainPanel = React.useRef( null );
 
 	const role =localStorage.getItem('role');
+	console.log(localStorage);
 
 	const [ accessToken, setAccessToken ] = useState( localStorage.getItem( 'accessToken' ) || null );
 
-	if ( !accessToken )
+	if (!accessToken)
 	{
 		localStorage.clear();
 		window.location.href = '/login';
@@ -65,6 +50,7 @@ function Admin ()
 			}
 		} );
 	};
+
 	React.useEffect( () =>
 	{
 		document.documentElement.scrollTop = 0;
@@ -80,6 +66,7 @@ function Admin ()
 			element.parentNode.removeChild( element );
 		}
 	}, [ location ] );
+	
 	return (
 		<>
 			<div className="wrapper">

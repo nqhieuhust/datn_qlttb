@@ -7,7 +7,7 @@ import accessoryApi from "api/admin/accessoryService";
 import moment from "moment";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "redux/actions/common-action";
-import { timeDelay } from "api/common";
+import { timeDelay } from "../../common";
 import { Pagination, message } from "antd";
 import { FilterAccessory } from "./filter";
 

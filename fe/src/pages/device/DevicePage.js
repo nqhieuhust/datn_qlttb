@@ -14,12 +14,13 @@ import {
   Pagination,
   Select,
   Checkbox,
+  Radio,
   message,
   Typography,
   Row,
   Col,
 } from "antd";
-import { timeDelay } from "api/common";
+import { timeDelay } from "../../common";
 import { FilterDevice } from "./filter";
 import defaultImg from "../../assets/img/image_faildoad.png";
 import moment from "moment";
@@ -248,7 +249,7 @@ function DevicePage() {
   const getUserList = async (filters) => {
     try {
       const response = await userApi.getUsers();
-      console.log(response);
+      // console.log(response);
       if (response.status === "success" && response.data.users) {
         let user = response.data.users.reduce((newData, item) => {
           newData.push({
@@ -262,7 +263,7 @@ function DevicePage() {
     } catch (e) {
       console.log(e);
     }
-  };
+  }; 
 
   const getDeviceById = async (id) => {
     try {
@@ -525,8 +526,8 @@ function DevicePage() {
     if (type == 1) {
       if (!form.device_name || form.device_name === "")
         newErrors.device_name = "Tên thiết bị không được để trống!";
-      // if (!form.code || form.code === "")
-      //   newErrors.code = "Mã thiết bị không được để trống!";
+      if (!form.code || form.code === "")
+        newErrors.code = "Mã thiết bị không được để trống!";
       if (!form.model || form.model === "")
         newErrors.model = "Số model thiết bị không được để trống!";
       // if (!form.serial || form.serial === "")
@@ -2139,17 +2140,17 @@ function DevicePage() {
                   <div className="col-md-4 mb-2">
                     <Form.Group style={{ marginTop: 10 }}>
                       <Form.Label>Lý do hỏng:</Form.Label>
-                      <Checkbox.Group>
+                      <Radio.Group>
                         <Row>
                           {optionsBroken.map((option) => (
                             <Col span={12}>
-                              <Checkbox value={option.value}>
+                              <Radio value={option.value}>
                                 {option.label}
-                              </Checkbox>
+                              </Radio>
                             </Col>
                           ))}
                         </Row>
-                      </Checkbox.Group>
+                      </Radio.Group>
                       {errors.model && (
                         <span
                           style={{

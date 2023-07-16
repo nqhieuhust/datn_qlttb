@@ -1,5 +1,5 @@
 import { message } from "antd";
-import { timeDelay } from "api/common";
+import { timeDelay } from "../../common";
 import profileApi from "api/profile/profileService";
 import { MDBSpinner } from "mdb-react-ui-kit";
 import React, { useState, useEffect } from "react";

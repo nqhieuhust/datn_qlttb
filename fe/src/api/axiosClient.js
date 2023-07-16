@@ -17,7 +17,7 @@ axiosClient.interceptors.response.use(
         // Any status code that lie within the range of 2xx cause this function to trigger
         // Do something with response data
 		let data = response.data;
-        console.log(data);
+        // console.log(data);
         if ((data && data.code === 'LG0401')) {
             localStorage.clear();
             window.location.href = `/login`;

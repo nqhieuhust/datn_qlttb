@@ -30,23 +30,10 @@ export class Device {
     @Column('varchar', { name: 'accessory' })
     accessory: string;
 
-    @Column('varchar', { name: 'manager_device' })
-    manager_device: string;
-
-    @Column('varchar', { name: 'classif_document' })
-    classif_document: string;
-
-    @Column('varchar', { name: 'attached_document' })
-    attached_document: string;
-
-    @Column('varchar', { name: 'datasheet_document' })
-    datasheet_document: string;
-
     @Column('varchar', { name: 'manufacture' })
     manufacture: string;
 
-    @Column('varchar', { name: 'country' })
-    country: string;
+
 
     @Column('timestamp', { name: 'import_date' })
 	import_date: Date;

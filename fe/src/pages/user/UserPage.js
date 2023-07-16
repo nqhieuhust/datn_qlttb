@@ -6,7 +6,7 @@ import { MDBSpinner } from "mdb-react-ui-kit";
 import { Card, Table, Container, Row, Col } from "react-bootstrap";
 import { Pagination, message } from "antd";
 import { FilterUser } from "./filter";
-import { timeDelay } from "api/common";
+import { timeDelay } from "../../common";
 import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "redux/actions/common-action";
 
@@ -132,6 +132,7 @@ function UserPage() {
       setLoadingForm(true);
       dispatch(toggleShowLoading(true));
       const response = await userApi.getUserById(id);
+      await timeDelay(1000);
       if (response.status == 200 || response.status === "success") {
         setIdEdit(response.data.id);
         setName(response.data.full_name);

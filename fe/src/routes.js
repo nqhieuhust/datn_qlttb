@@ -1,12 +1,8 @@
-/*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v2.0.1
-=========================================================
-
-*/
-import Dashboard from "views/Dashboard.js";
-import UserProfile from "views/UserProfile.js";
+// import Dashboard from "views/Dashboard.js";
+// import UserProfile from "views/UserProfile.js";
+import Dashboard from "./pages/home/Dashboard";
+import UserProfile from "./pages/profile/UserProfile";
 import UserPage from "./pages/user/UserPage";
 import DepartmentPage from "./pages/department/DepartmentPage";
 import ProviderPage from "./pages/provider/ProviderPage";
@@ -23,7 +19,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-grid-45",
     component: Dashboard,
     layout: "/admin",
-    role: [1, 2, 3],
+    role: [1, 2, 3], 
   },
   {
     path: "/user",
@@ -39,7 +35,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-bank",
     component: DepartmentPage,
     layout: "/admin",
-    role: [1, 2, 3],
+    role: [1, 2],
   },
 
   {

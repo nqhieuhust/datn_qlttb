@@ -7,7 +7,7 @@ import '../../assets/css/loading.css'
 function Loading({ isShowLoading }) {
     if (isShowLoading) {
         return (
-            <div className="zingLoading" id="zingLoading">
+            <div className="loading" id="loading">
                 <div className="gtWaving">
                     <Space size="middle">
                         <Spin style={{ color: '#ee4d2d' }} size="large" />

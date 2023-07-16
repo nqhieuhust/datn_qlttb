@@ -41,32 +41,7 @@ export class UpdateDeviceDto {
 	@ApiProperty()
 	@IsOptional()
     @IsString()
-    manager_device?: string;
-
-	@ApiProperty()
-	@IsOptional()
-    @IsString()
-    attached_document?: string;
-
-	@ApiProperty()
-	@IsOptional()
-    @IsString()
-    classif_document?: string;
-
-	@ApiProperty()
-	@IsOptional()
-    @IsString()
-    datasheet_document?: string;
-
-	@ApiProperty()
-	@IsOptional()
-    @IsString()
     manufacture?: string;
-
-	@ApiProperty()
-	@IsOptional()
-    @IsString()
-    country?: string;
 
 	@ApiProperty()
 	@IsOptional()

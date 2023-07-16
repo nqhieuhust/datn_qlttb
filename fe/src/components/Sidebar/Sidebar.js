@@ -30,6 +30,7 @@ function Sidebar({ color, image, routes, role }) {
                 </div>
                 <Nav>
                     {role && routes.map((prop, key) => {
+                        {/* console.log(prop) */}
                         if (!prop.redirect && !prop.not_show && prop.role.includes(Number(role)))
                             return (
                                 <li

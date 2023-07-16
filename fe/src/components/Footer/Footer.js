@@ -9,12 +9,12 @@ class Footer extends Component {
                     <nav>
                         <ul className="footer-menu">
                             <li>
-                                <a href="https://123code.net/">123code</a>
+                                <a href="https://123code.net/">Hieu</a>
                             </li>
                         </ul>
                         <p className="copyright text-center">
                             © {new Date().getFullYear()}{" "}
-                            <a href="https://123code.net/">halinh0707</a>
+                            <a href="https://123code.net/">123</a>
                         </p>
                     </nav>
                 </Container>

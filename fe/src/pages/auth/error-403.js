@@ -13,4 +13,4 @@ export const Error403 = () => {
       </div>
     </div>
   );
-};
+}

@@ -6,7 +6,7 @@ import { Card, Table, Container, Row, Col } from "react-bootstrap";
 import { Pagination, message } from "antd";
 import { toggleShowLoading } from "redux/actions/common-action";
 import { useDispatch } from "react-redux";
-import { timeDelay } from "api/common";
+import { timeDelay } from "../../common";
 import { FilterProvider } from "./filters";
 
 function ProviderPage() {
