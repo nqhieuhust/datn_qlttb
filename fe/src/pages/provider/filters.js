@@ -44,6 +44,7 @@ export const FilterProvider = (props) => {
       props.setPaging(paging);
     }
   };
+  
   return (
     <>
       <div className="row mb-4">

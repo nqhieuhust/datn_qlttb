@@ -41,6 +41,8 @@ export class ValidateService {
 			}
 			if (!regexPass.test(userDto.password)) {
 				errorData.password = newArrayError(errorData.password, 'Password is invalid!');
+			}if (!regexPass.test(userDto.password)) {
+				errorData.password = newArrayError(errorData.password, 'Password is invalid!');
 			}
 		}
 

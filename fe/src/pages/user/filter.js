@@ -1,17 +1,22 @@
-import { useState } from "react";
-import { Input, Select } from "antd";
+import { useState, useEffect } from "react";
+
+// setField(): Hàm cập nhật giá trị của 1 trường 
 import { setField } from "../../common";
+
+import { Input, Select } from "antd";
 import { Form } from "react-bootstrap";
 
 export const FilterUser = (props) => {
   const [form, setForm] = useState({
-    id: null,
+    // id: null,
     username: null,
     email: null,
     status: null,
-    mobile: null,
     department_id: null,
   });
+
+  console.log(form);
+
   const [department, setDepartment] = useState([]);
   const [status, setStatus] = useState([]);
   useEffect(() => {
@@ -48,37 +53,26 @@ export const FilterUser = (props) => {
         form.username = form.username.trim();
         setForm({ ...form, username: form.username.trim() });
       }
-      if (form.id) {
-        form.id = form.id.trim();
-        setForm({ ...form, id: form.id.trim() });
-      }
       if (form.email) {
         form.email = form.email.trim();
         setForm({ ...form, email: form.email.trim() });
       }
-      if (form.mobile) {
-        form.mobile = form.mobile.trim();
-        setForm({ ...form, mobile: form.mobile.trim() });
-      }
+      
       props.getUserList({ ...props.paging, page: 1, ...form });
       props.setParams(form);
       props.setPaging(paging);
     } else {
       setForm({
-        id: null,
         username: null,
         email: null,
         status: null,
-        mobile: null,
         department_id: null,
       });
       props.getUserList({ ...props.paging });
       props.setParams({
-        id: null,
         username: null,
         email: null,
         status: null,
-        mobile: null,
         department_id: null,
       });
       props.setPaging(paging);
@@ -89,11 +83,11 @@ export const FilterUser = (props) => {
       <div className="row mb-4">
         <div className="col-md-4 mb-2 form-group">
           <Form.Group>
-            <Form.Label>Tên tài khoản: </Form.Label>
+            <Form.Label>Tài khoản: </Form.Label>
             <Input
               className="form-control"
               value={form.username}
-              placeholder="Nhập tên tài khoản"
+              placeholder="Nhập tài khoản"
               onChange={(e) =>
                 setField(form, "username", e.target.value, setForm)
               }

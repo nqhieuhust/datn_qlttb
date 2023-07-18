@@ -18,7 +18,6 @@ function UserPage() {
   const [paging, setPaging] = useState({ page: 1, page_size: 20, total: 0 });
 
   const [users, setUsers] = useState([]);
-
   const [name, setName] = useState();
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
@@ -37,12 +36,13 @@ function UserPage() {
   const [showModal, setShowModal] = useState(false);
   const [showCre, setShowCre] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
+  
   const [params, setParams] = useState({
-    id: null,
+    // id: null,
     username: null,
     email: null,
     status: null,
-    mobile: null,
+    // mobile: null,
     department_id: null,
   });
 
@@ -98,7 +98,7 @@ function UserPage() {
       setLoading(true);
       dispatch(toggleShowLoading(true));
       const response = await userApi.getUsers(filters);
-      // console.log(response);
+      console.log(response);
       await timeDelay(1000);
       if (response.status === 200 || response.status === "success") {
         setUsers(response.data.users);
@@ -884,6 +884,7 @@ function UserPage() {
                       </Form.Group>
                     </div>
                   </div>
+
                   <div className="row">
                     <div className="col-md-6 mb-2">
                       <Form.Group style={{ marginTop: 10 }}>
@@ -911,6 +912,7 @@ function UserPage() {
                         )}
                       </Form.Group>
                     </div>
+                    
                     <div className="col-md-3 mb-2">
                       <Form.Group style={{ marginTop: 10 }}>
                         <Form.Label>Phân quyền:</Form.Label>

@@ -24,8 +24,11 @@ const viewerStyle = {
   height: "90vh",
 };
 
+
+
 const ReportPage = () => {
   const [department, setDepartment] = useState("");
+  const [status, setStatus] = useState("")
   const [reportData, setReportData] = useState([]);
   const [showReport, setShowReport] = useState(false);
 
@@ -37,6 +40,7 @@ const ReportPage = () => {
     fetchDepartment();
   }, []);
 
+  // Lấy danh sách thiết bị
   const fetchDevices = async () => {
     try {
       const response = await deviceApi.getDevices();
@@ -46,6 +50,7 @@ const ReportPage = () => {
     }
   };
 
+  // Lấy danh sách khoa phòng
   const fetchDepartment = async () => {
     try {
       const response = await departmentApi.getDepartments();
@@ -56,42 +61,97 @@ const ReportPage = () => {
     }
   };
 
+  // Trạng thái thiết bị
+  const statusConfig = [
+    { value: 1, label: "Đang sử dụng" },
+    { value: 2, label: "Đang báo hỏng" },
+    { value: 3, label: "Đang sửa chữa" },
+    { value: 4, label: "Đang bảo hành" },
+  ];
 
+  
 
   // Hàm xử lý sự kiện khi người dùng chọn khoa/phòng
   const handleDepartmentChange = (event) => {
     setDepartment(event.target.value);
+    setShowReport(false)
+    setStatus(null)
   };
+
+
+// Hàm xử lý sự kiện khi chọn trạng thái
+  const handleStatusChange = (event) => {
+    setStatus(event.target.value)
+    setShowReport(false)
+    setDepartment(null)
+  }
+
+  // Lấy DS tấ cả thiết bị
+  const fetchDevicesAll = () => listDevice
+
+  const fetchDevicesByDepartment = (department) => {
+    // Lọc danh sách thiết bị dựa trên khoa/phòng
+    const devices = listDevice.filter(
+      (device) => device.department.department_name === department
+    );
+    return devices;
+  };
+
+  // Lọc danh sách thiết bị theo trạng thái
+  const fetchDevicesByStatus = (status) => {
+    const devices = listDevice.filter(
+      (device) =>  device.status == status
+    );
+   
+    return devices;
+  }
 
   // Hàm xử lý sự kiện khi người dùng nhấn nút Xuất báo cáo
   const handleReportExport = () => {
-    
-    // Gọi API hoặc xử lý dữ liệu để lấy danh sách thiết bị theo khoa/phòng
-    // và gán dữ liệu vào reportData
-    const fetchDevicesByDepartment = (department) => {
-      // Lọc danh sách thiết bị dựa trên khoa/phòng
-      const devices = listDevice.filter(
-        (device) => device.department.department_name === department
-      );
-      return devices;
-    };
+     let deviceAll = []
+    if(department) {
+      if(department === "all") {
+        deviceAll = fetchDevicesAll()
+      } else {
+        // Gọi API hoặc xử lý dữ liệu để lấy danh sách thiết bị theo khoa/phòng
+        // và gán dữ liệu vào reportData
+       deviceAll = fetchDevicesByDepartment(department)
+      }
+    setStatus("default")
 
-    const devicess = fetchDevicesByDepartment(department); // Hàm fetch thiết bị từ API
+    }
+
+    if(status) {
+      deviceAll = fetchDevicesByStatus(status)
+    }
+
+
+    // const deviceAll = (department === "all") ? fetchDevicesAll() : fetchDevicesByDepartment(department); // Hàm fetch thiết bị từ API
 
     // Gán dữ liệu vào reportData và hiển thị PDFViewer
-    setReportData(devicess);
+    setReportData(deviceAll);
     setShowReport(true);
   };
 
   return (
     <>
       <div>
-        <h2>Báo cáo thiết bị theo khoa/phòng</h2>
+        <h2>Báo cáo thiết bị</h2>
         <select value={department} onChange={handleDepartmentChange}>
-          <option value="">Chọn Khoa/Phòng</option>
+          <option value="default">Chọn khoa</option>
+          <option value="all">Tất cả các khoa</option>
           {listDepartment.map((department, index) => (
             <option key={index} value={department.department_name}>
               {department.department_name}
+            </option>
+          ))}
+        </select>
+
+        <select value={status} onChange={handleStatusChange}>
+          <option value = "default">Chọn trạng thái</option>
+          {statusConfig.map((status, index) => (
+            <option key={index} value={status.value}>
+              {status.label}
             </option>
           ))}
         </select>
@@ -100,7 +160,7 @@ const ReportPage = () => {
       {showReport && (
         <PDFViewer style={viewerStyle}>
           {reportData.length > 0 ? (
-            <TableDocument reportData={reportData} department_name={department} />
+            <TableDocument reportData={reportData} department_name={department} status={status} />
           ) : null}
         </PDFViewer>
       )}

@@ -97,6 +97,11 @@ export class CreateDeviceDto {
 	@IsString()
     avatar: string;
 
+    @ApiProperty()
+	@IsOptional()
+	@IsString()
+    document: string;
+
 	@IsNumber()
 	@IsOptional()
     @ApiProperty()

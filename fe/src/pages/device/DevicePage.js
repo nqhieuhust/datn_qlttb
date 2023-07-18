@@ -45,6 +45,7 @@ function DevicePage() {
   const [type, setType] = useState();
   const [manager_device, setManagerDevice] = useState();
   const [avatar, setAvatar] = useState();
+  const [document, setDocument] = useState();
   const [provider_id, setProviderId] = useState();
   const [department_id, setDepartmentId] = useState();
   const [user_id, setUserId] = useState();
@@ -90,6 +91,7 @@ function DevicePage() {
 
   const [isChangeFile, setIsChangeFile] = useState(false);
   const [file, setFile] = useState(null);
+  const [filePdf, setFilePdf] = useState(null);
   const [params, setParams] = useState({
     id: null,
     device_name: null,
@@ -177,7 +179,6 @@ function DevicePage() {
       setLoading(true);
       dispatch(toggleShowLoading(true));
       const response = await deviceApi.getDevices(filters);
-      console.log(response);
       await timeDelay(1000);
       if (response.status === "success") {
         setDevices(response.data.devices);
@@ -263,7 +264,7 @@ function DevicePage() {
     } catch (e) {
       console.log(e);
     }
-  }; 
+  };
 
   const getDeviceById = async (id) => {
     try {
@@ -283,6 +284,7 @@ function DevicePage() {
         setCountries(response.data.countries);
         setType(response.data.type);
         setAvatar(response.data.avatar);
+        setDocument(response.data.document);
         setProviderId(response.data.provider_id);
         setDepartmentId(response.data.department_id);
         setUserId(response.data.user_id);
@@ -294,6 +296,7 @@ function DevicePage() {
           status: response.data.status,
           countries: response.data.countries,
           avatar: response.data.avatar,
+          document: response.data.document,
           user_id: response.data.user_id,
           provider_id: response.data.provider_id,
           department_id: response.data.department_id,
@@ -333,14 +336,19 @@ function DevicePage() {
         dispatch(toggleShowLoading(true));
 
         const responseFile = await uploadApi.uploadFile(file);
+        console.log(responseFile);
         if (responseFile.data.status == "success") {
           form.avatar = responseFile.data.data.destination;
+          // form.document = responseFile.data.data.destination;
         } else {
           setErrors({ avatar: "Tải ảnh lên bị lỗi!" });
+          // setErrors({ document: "Tải file lên bị lỗi!" });
           setLoadingButton(false);
           dispatch(toggleShowLoading(false));
           return;
         }
+
+
         if (form.status) form.status = parseInt(form.status);
         if (form.type) form.type = parseInt(form.type);
         if (form.provider_id) form.provider_id = parseInt(form.provider_id);
@@ -536,10 +544,10 @@ function DevicePage() {
       //   newErrors.manager_device = "Người quản lý thiết bị không được để trống!";
       if (!form.user_id || form.user_id === "")
         newErrors.user_id = "Người quản lý thiết bị không được để trống!";
-      if ( !form.manufacture || form.manufacture === '' ) 
-        newErrors.manufacture = 'Hãng sản xuất không được để trống!';
-      if ( !form.countries || form.countries === '' ) 
-        newErrors.countries = 'Nơi xuất xứ không được để trống!';
+      if (!form.manufacture || form.manufacture === "")
+        newErrors.manufacture = "Hãng sản xuất không được để trống!";
+      if (!form.countries || form.countries === "")
+        newErrors.countries = "Nơi xuất xứ không được để trống!";
       // if (!form.avatar || form.avatar === '') newErrors.avatar = 'Avatar cannot be blank!';
       if (!form.status || form.status === "")
         newErrors.status = "Trạng thái không được để trống!";
@@ -596,6 +604,13 @@ function DevicePage() {
   const handleUpload = async (e) => {
     if (e && e.target.files[0] && !isShowDetail) {
       setFile(e.target.files[0]);
+      setIsChangeFile(true);
+    }
+  };
+
+  const handleUploadPdf = (e) => {
+    if (e && e.target.files[0] && !isShowDetail) {
+      setFilePdf(e.target.files[0]);
       setIsChangeFile(true);
     }
   };
@@ -967,28 +982,7 @@ function DevicePage() {
                 </Form.Group>
               </div>
 
-              {/* <div className="col-md-4">
-                <Form.Group style={{ marginTop: 10 }}>
-                  <Form.Label>Xuất xứ:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Nhập nơi xuất xứ"
-                    onChange={(e) => setField("device_group", e.target.value)}
-                    isInvalid={!!errors.device_group}
-                  />
-                  {errors.device_group && (
-                    <span
-                      style={{
-                        fontSize: 12,
-                        color: "#dc3545",
-                        fontWeight: 100,
-                      }}
-                    >
-                      {errors.device_group}
-                    </span>
-                  )}
-                </Form.Group>
-              </div> */}
+        
 
               <div className="col-md-4">
                 <Form.Group style={{ marginTop: 10 }}>
@@ -1023,28 +1017,7 @@ function DevicePage() {
                 </Form.Group>
               </div>
 
-              {/* <div className="col-md-4">
-                <Form.Group style={{ marginTop: 10 }}>
-                  <Form.Label>Loại thiết bị:</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Nhập loại thiết bị"
-                    onChange={(e) => setField("device_type", e.target.value)}
-                    isInvalid={!!errors.device_type}
-                  />
-                  {errors.device_type && (
-                    <span
-                      style={{
-                        fontSize: 12,
-                        color: "#dc3545",
-                        fontWeight: 100,
-                      }}
-                    >
-                      {errors.device_type}
-                    </span>
-                  )}
-                </Form.Group>
-              </div> */}
+             
 
               <div className="col-md-4">
                 <Form.Group style={{ marginTop: 10 }}>
@@ -1241,6 +1214,7 @@ function DevicePage() {
                   )}
                 </Form.Group>
               </div>
+
               <div className="col-md-4">
                 <Form.Group style={{ marginTop: 10 }}>
                   <Form.Label>Ngày bàn giao:</Form.Label>
@@ -1263,6 +1237,7 @@ function DevicePage() {
                   )}
                 </Form.Group>
               </div>
+
               <div className="col-md-4">
                 <Form.Group style={{ marginTop: 10 }}>
                   <Form.Label>Hạn bảo hành:</Form.Label>
@@ -1313,26 +1288,36 @@ function DevicePage() {
               </div>
 
               {/* <div className="col-md-4 mb-2">
-				<form>
-					<div style={{ marginTop: 10 }}>
-					<label>Hồ sơ đi kèm:</label>
-					<input
-						style={{ padding: "4px 12px" }}
-						type="file"
-						accept=".pdf"
-						onChange={handleUploadd}
-					/>
-					{file && (
-						<button type="button" onClick={handleDownload}>
-						Tải xuống
-						</button>
-					)}
-					</div>
-				</form>
-   			 </div> */}
+                <Form.Group style={{ marginTop: 10 }}>
+                  <Form.Label>Hồ sơ đi kèm:</Form.Label>
+                  <Form.Control
+                    style={{ padding: "4px 12px" }}
+                    type="file"
+                    accept=".pdf"
+                    onChange={(e) => {
+                      handleUploadPdf(e);
+                    }}
+                    isInvalid={!!errors.document}
+                  />
+                  {errors.document && (
+                    <span
+                      style={{
+                        fontSize: 12,
+                        color: "#dc3545",
+                        fontWeight: 100,
+                      }}
+                    >
+                      {errors.document}
+                    </span>
+                  )}
+                </Form.Group>
+              </div> */}
+
+          
             </div>
           </Form>
         </Modal.Body>
+
         <Modal.Footer style={{ justifyContent: "center", marginTop: 10 }}>
           <button
             type="submit"
@@ -1574,33 +1559,7 @@ function DevicePage() {
                     </Form.Group>
                   </div>
 
-                  {/* <div className="col-md-4">
-                    <Form.Group style={{ marginTop: 10 }}>
-                      <Form.Label>Loại thiết bị:</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Nhập loại thiết bị"
-                        value={form.device_type}
-                        readOnly={isShowDetail}
-                        onChange={(e) => {
-                          if (!isShowDetail)
-                            setField("device_type", e.target.value);
-                        }}
-                        isInvalid={!!errors.device_type}
-                      />
-                      {errors.device_type && (
-                        <span
-                          style={{
-                            fontSize: 12,
-                            color: "#dc3545",
-                            fontWeight: 100,
-                          }}
-                        >
-                          {errors.device_type}
-                        </span>
-                      )}
-                    </Form.Group>
-                  </div> */}
+                 
 
                   <div className="col-md-4 mb-2">
                     <Form.Group style={{ marginTop: 10 }}>
@@ -1659,34 +1618,7 @@ function DevicePage() {
                       )}
                     </Form.Group>
                   </div>
-                  {/* <div className="col-md-4">
-                    <Form.Group style={{ marginTop: 10 }}>
-                      <Form.Label>Người quản lý:</Form.Label>
-                      <Form.Control
-                        type="text"
-                        // as="textarea" rows={3}
-                        placeholder="Nhập người quản lý thiết bị"
-                        value={form.manager_device}
-                        readOnly={isShowDetail}
-                        onChange={(e) => {
-                          if (!isShowDetail)
-                            setField("manager_device", e.target.value);
-                        }}
-                        isInvalid={!!errors.manager_device}
-                      />
-                      {errors.manager_device && (
-                        <span
-                          style={{
-                            fontSize: 12,
-                            color: "#dc3545",
-                            fontWeight: 100,
-                          }}
-                        >
-                          {errors.manager_device}
-                        </span>
-                      )}
-                    </Form.Group>
-                  </div> */}
+                  
 
                   <div className="col-md-4 mb-2">
                     <Form.Group style={{ marginTop: 10 }}>
@@ -1829,6 +1761,7 @@ function DevicePage() {
                       )}
                     </Form.Group>
                   </div>
+
                   <div className="col-md-4">
                     <Form.Group style={{ marginTop: 10 }}>
                       <Form.Label>Ngày bàn giao:</Form.Label>
@@ -1856,6 +1789,7 @@ function DevicePage() {
                       )}
                     </Form.Group>
                   </div>
+
                   <div className="col-md-4">
                     <Form.Group style={{ marginTop: 10 }}>
                       <Form.Label>Hạn bảo hành:</Form.Label>
@@ -1929,6 +1863,52 @@ function DevicePage() {
                       )}
                     </Form.Group>
                   </div>
+
+                  {/* <div className="col-md-4 mb-2">
+                    <Form.Group style={{ marginTop: 10 }}>
+                      <Form.Label>Hồ sơ đi kèm:</Form.Label>
+                      {!isShowDetail && (
+                        <>
+                          <Form.Control
+                            style={{ padding: "4px 12px" }}
+                            type="file"
+                            accept=".pdf"
+                            readOnly={isShowDetail}
+                            disabled={isShowDetail}
+                            onChange={(e) => {
+                              handleUploadPdf(e);
+                            }}
+                            isInvalid={!!errors.document}
+                          />
+                          {errors.document && (
+                            <span
+                              style={{
+                                fontSize: 12,
+                                color: "#dc3545",
+                                fontWeight: 100,
+                              }}
+                            >
+                              {errors.docment}
+                            </span>
+                          )}
+                        </>
+                      )}
+                      {isShowDetail && (
+                        <div>
+                          <img
+                            src={form.document}
+                            style={{
+                              border: "0.5px solid",
+                              borderRadius: "5px",
+                              width: "120px",
+                              height: "120px",
+                            }}
+                            onError={errorImg}
+                          />
+                        </div>
+                      )}
+                    </Form.Group>
+                  </div> */}
                 </div>
               </Form>
             </Modal.Body>
@@ -2063,20 +2043,7 @@ function DevicePage() {
                     </Form.Group>
                   </div>
 
-                  {/* <div className="col-md-4 mb-2">
-                    <Form.Group style={{ marginTop: 10 }}>
-                      <Form.Label>Người quản lý:</Form.Label>
-                      <Form.Control
-                        type="text"
-                        placeholder="Nhập số model"
-                        value={form.manager_device}
-                        readOnly={true}
-                        onChange={ ( e ) => setField( 'model', e.target.value ) }
-                        isInvalid={ !!errors.model }
-                      />
-                      { errors.model && <span style={ { fontSize: 12, color: '#dc3545', fontWeight: 100 } }>{ errors.model }</span> }
-                    </Form.Group>
-                  </div> */}
+                 
 
                   <div className="col-md-4 mb-2">
                     <Form.Group style={{ marginTop: 10 }}>
@@ -2144,9 +2111,7 @@ function DevicePage() {
                         <Row>
                           {optionsBroken.map((option) => (
                             <Col span={12}>
-                              <Radio value={option.value}>
-                                {option.label}
-                              </Radio>
+                              <Radio value={option.value}>{option.label}</Radio>
                             </Col>
                           ))}
                         </Row>

@@ -171,31 +171,7 @@ function LoginPage() {
 									{loadingButton === false && <>Đăng nhập</>}
 								</button>
 
-								{/*<div className="divider d-flex align-items-center my-4">*/}
-								{/*	<p className="text-center fw-bold mx-3 mb-0">OR</p>*/}
-								{/*</div>*/}
-
-
-								{/*<button className="btn btn-primary mb-4 w-100" type="button" size="lg" style={{ border: 'none', backgroundColor: 'rgb(65 225 186)', color: '#ffff' }}*/}
-								{/*	onClick={() => changeForm(2)}*/}
-								{/*>*/}
-								{/*	Sign up*/}
-								{/*</button>*/}
-
-								{/*<div className="row">*/}
-								{/*	<div className="col-6">*/}
-								{/*		<button className="btn btn-primary mb-4 w-100" size="lg" style={{ border: 'none', backgroundColor: '#3b5998', color: '#ffff' }}>*/}
-								{/*			<MDBIcon fab icon="facebook-f" className="mx-2" />*/}
-								{/*			Continue with facebook*/}
-								{/*		</button>*/}
-								{/*	</div>*/}
-								{/*	<div className="col-6">*/}
-								{/*		<button className="btn btn-primary w-100" size="lg" style={{ border: 'none', backgroundColor: '#55acee', color: '#ffff' }}>*/}
-								{/*			<MDBIcon fab icon="twitter" className="mx-2" />*/}
-								{/*			Continue with twitter*/}
-								{/*		</button>*/}
-								{/*	</div>*/}
-								{/*</div>*/}
+								
 							</>
 						}
 
@@ -249,30 +225,7 @@ function LoginPage() {
 								</button>
 
 
-								{/*<div className="divider d-flex align-items-center my-4">*/}
-								{/*	<p className="text-center fw-bold mx-3 mb-0">OR</p>*/}
-								{/*</div>*/}
-
-								{/*<button className="btn btn-primary mb-4 w-100" type="button" size="lg" style={{ backgroundColor: '#007bff', color: '#ffff' }}*/}
-								{/*	onClick={() => changeForm(1)}*/}
-								{/*>*/}
-								{/*	Sign in*/}
-								{/*</button>*/}
-
-								{/*<div className="row">*/}
-								{/*	<div className="col-6">*/}
-								{/*		<button className="btn btn-primary mb-4 w-100" size="lg" style={{ border: 'none', backgroundColor: '#3b5998', color: '#ffff' }}>*/}
-								{/*			<MDBIcon fab icon="facebook-f" className="mx-2" />*/}
-								{/*			Continue with facebook*/}
-								{/*		</button>*/}
-								{/*	</div>*/}
-								{/*	<div className="col-6">*/}
-								{/*		<button className="btn btn-primary w-100" size="lg" style={{ border: 'none', backgroundColor: '#55acee', color: '#ffff' }}>*/}
-								{/*			<MDBIcon fab icon="twitter" className="mx-2" />*/}
-								{/*			Continue with twitter*/}
-								{/*		</button>*/}
-								{/*	</div>*/}
-								{/*</div>*/}
+								
 							</>
 						}
 

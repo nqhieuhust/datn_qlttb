@@ -2,57 +2,81 @@ import React from "react";
 import { useState } from "react";
 import { Page, Text, View, Document } from "@react-pdf/renderer";
 
-const TableDocument = ({ reportData, department_name }) => {
-  console.log(department_name);
+// Import css
+import { styles } from "./style";
+
+const role = Number(localStorage.getItem("role"));
+console.log(localStorage);
+
+
+
+const TableDocument = ({ reportData, department_name, status }) => {
+
+const dv = reportData.map(device => device.department.department_name)
+
+// console.log(dv);
+
 
   const createTableHeader = () => {
     return (
-      <View style={tableRowStyle} fixed>
-        <View style={[firstTableColHeaderStyle, col1]}>
-          <Text style={tableCellHeaderStyle}>Mã thiết bị</Text>
+      <View style={styles.tableRowStyle} fixed>
+        <View style={[styles.firstTableColHeaderStyle, styles.col1]}>
+          <Text style={styles.tableCellHeaderStyle}>Mã thiết bị</Text>
         </View>
 
-        <View style={[tableColHeaderStyle, col2]}>
-          <Text style={tableCellHeaderStyle}>Tên thiết bị</Text>
+        <View style={[styles.tableColHeaderStyle, styles.col2]}>
+          <Text style={styles.tableCellHeaderStyle}>Tên thiết bị</Text>
         </View>
+        {department_name === "all" || status && (
+          <View style={[styles.tableColHeaderStyle, styles.col5]}>
+            <Text style={styles.tableCellHeaderStyle}>Khoa quản lý</Text>
+          </View>
+        )}
 
-        <View style={[tableColHeaderStyle, col3]}>
-          <Text style={tableCellHeaderStyle}>Người quản lý</Text>
+        <View style={[styles.tableColHeaderStyle, styles.col3]}>
+          <Text style={styles.tableCellHeaderStyle}>Người quản lý</Text>
         </View>
-
-        <View style={[tableColHeaderStyle, col4]}>
-          <Text style={tableCellHeaderStyle}>Trạng thái</Text>
+        
+        {department_name &&
+        <View style={[styles.tableColHeaderStyle, styles.col4]}>
+          <Text style={styles.tableCellHeaderStyle}>Trạng thái</Text>
         </View>
-
-        {/* <View style={tableColHeaderStyle}>
-          <Text style={tableCellHeaderStyle}>Column</Text>
-        </View> */}
+        }
       </View>
     );
   };
 
   const createTableRow = (device) => {
-    // console.log(device);
+    console.log(device);
     return (
-      <View style={tableRowStyle}>
-        <View style={[firstTableColStyle, row1]}>
-          <Text style={tableCellStyle}>{device.code}</Text>
+      <View style={styles.tableRowStyle}>
+        <View style={[styles.firstTableColStyle, styles.row1]}>
+          <Text style={styles.tableCellStyle}>{device.code}</Text>
         </View>
 
-        <View style={[tableColStyle, row2]}>
-          <Text style={tableCellStyle}>{device.device_name}</Text>
+        <View style={[styles.tableColStyle, styles.row2]}>
+          <Text style={styles.tableCellStyle}>{device.device_name}</Text>
         </View>
 
-        <View style={[tableColStyle, row3]}>
-          <Text style={tableCellStyle}>{device.user.full_name}</Text>
+        {department_name === "all" || status && (
+          <View style={[styles.tableColStyle, styles.row5]}>
+            <Text style={styles.tableCellStyle}>
+              {device.department.department_name}
+            </Text>
+          </View>
+        )}
+
+        <View style={[styles.tableColStyle, styles.row3]}>
+          <Text style={styles.tableCellStyle}>{device.user.full_name}</Text>
         </View>
 
-        <View style={[tableColStyle, row4]}>
-          <Text style={tableCellStyle}>
+        {department_name && 
+        <View style={[styles.tableColStyle, styles.row4]}>
+          <Text style={styles.tableCellStyle}>
             {(() => {
               switch (device.status) {
                 case 1:
-                  return "Đang hoạt động";
+                  return "Đang sử dụng";
                 case 2:
                   return "Đang báo hỏng";
                 case 3:
@@ -65,161 +89,79 @@ const TableDocument = ({ reportData, department_name }) => {
             })()}
           </Text>
         </View>
+        }
       </View>
     );
   };
 
   return (
     <Document>
-      <Page style={pageStyle} size="A4" orientation="portrait">
+      <Page style={styles.pageStyle} size="A4" orientation="portrait">
         <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
           <View>
-            <Text style={{ fontFamily: "Roboto Regular" }}>Bệnh viện Bạch Mai</Text>
-            <Text style={{ fontFamily: "Roboto Regular" }}>{department_name}</Text>
+            <Text style={{ fontFamily: "Roboto Regular" }}>
+              Bệnh viện Bạch Mai
+            </Text>
+
+            <Text style={{ fontFamily: "Roboto Regular" }}>
+            {(() => {
+              switch (role) {         
+                case 2:
+                  if(department_name) {
+                    if(department_name === "all") {
+                      return "Phòng vật tư thiết bị"
+                    } else {
+                      return department_name
+                    }
+                  } else {
+                    return "Phòng vật tư thiết bị"
+                  }
+
+                case 3:
+                  if(department_name) {
+                  
+                      return department_name    
+                  } else {
+                    return dv[0]
+                  }
+             
+                default:
+                  return null;
+              }
+            })()}
+
+            
+              
+            </Text>
           </View>
           <View style={{ flexDirection: "column", alignItems: "center" }}>
-            <Text style={{ fontFamily: "Roboto Regular" }}> Cộng hòa xã hội chủ nghĩa Việt Nam</Text>
-            <Text style={{ fontFamily: "Roboto Regular" }}>Độc lập - Tự do - Hạnh phúc</Text>
+            <Text style={{ fontFamily: "Roboto Regular" }}>
+              Cộng hòa xã hội chủ nghĩa Việt Nam
+            </Text>
+            <Text style={{ fontFamily: "Roboto Regular" }}>
+              Độc lập - Tự do - Hạnh phúc
+            </Text>
           </View>
         </View>
-xzs v        <View>
-          <Text style={headingStyle}>Báo cáo thống kê thiết bị</Text>
+        <View>
+          <Text style={styles.headingStyle}>
+            {department_name
+              ? "Báo cáo thống kê thiết bị theo khoa"
+              : "Báo cáo thống kê thiết bị theo tình trạng"}
+          </Text>
         </View>
-        <View style={tableStyle}>
+        <View style={styles.tableStyle}>
           {createTableHeader()}
           {reportData.map((device, index) => createTableRow(device))}
         </View>
-        <View style={footer}>
-          <Text style={date}>Ngày......Tháng......Năm......</Text>
-          <Text style={reporter}>Người lập phiếu</Text>
-          <Text style={signature}>(Ký, ghi rõ họ tên)</Text>
+        <View style={styles.footer}>
+          <Text style={styles.date}>Ngày......Tháng......Năm......</Text>
+          <Text style={styles.reporter}>Người lập phiếu</Text>
+          <Text style={styles.signature}>(Ký, ghi rõ họ tên)</Text>
         </View>
       </Page>
     </Document>
   );
-};
-
-const pageStyle = {
-  paddingTop: 16,
-  paddingHorizontal: 40,
-  paddingBottom: 56,
-};
-
-const tableStyle = {
-  display: "table",
-  width: "auto",
-  marginTop: 25,
-  fontFamily: "Roboto Light",
-};
-
-const tableRowStyle = {
-  flexDirection: "row",
-};
-
-const firstTableColHeaderStyle = {
-  borderStyle: "solid",
-  borderColor: "#000",
-  borderBottomColor: "#000",
-  borderWidth: 1,
-  backgroundColor: "#bdbdbd",
-};
-
-const col1 = {
-  width: "15%",
-};
-const col2 = {
-  width: "40%",
-};
-const col3 = {
-  width: "25%",
-};
-const col4 = {
-  width: "20%",
-};
-
-const tableColHeaderStyle = {
-  borderStyle: "solid",
-  borderColor: "#000",
-  borderBottomColor: "#000",
-  borderWidth: 1,
-  borderLeftWidth: 0,
-  backgroundColor: "#bdbdbd",
-};
-
-const firstTableColStyle = {
-  width: "15%",
-  borderStyle: "solid",
-  borderColor: "#000",
-  borderWidth: 1,
-  borderTopWidth: 0,
-};
-
-const row1 = {
-  width: "15%",
-};
-const row2 = {
-  width: "40%",
-};
-const row3 = {
-  width: "25%",
-};
-const row4 = {
-  width: "20%",
-};
-
-const tableColStyle = {
-  borderStyle: "solid",
-  borderColor: "#000",
-  borderWidth: 1,
-  borderLeftWidth: 0,
-  borderTopWidth: 0,
-};
-
-const tableCellHeaderStyle = {
-  textAlign: "center",
-  margin: 4,
-  fontSize: 12,
-  fontWeight: "bold",
-  fontFamily: "Roboto Regular",
-};
-
-const tableCellStyle = {
-  textAlign: "center",
-  margin: 5,
-  fontSize: 10,
-};
-
-const headingStyle = {
-  textAlign: "center",
-  margin: 5,
-  marginTop: 20,
-  textTransform: "uppercase",
-  fontFamily: "Roboto Bold",
-};
-
-const footer = {
-  textAlign: "right",
-  marginTop: 10,
-};
-
-const date = {
-  fontSize: "14px",
-  fontFamily: "Roboto Light",
-  // marginRight: 20,
-};
-
-const reporter = {
-  marginRight: 20,
-  fontWeight: 1000,
-  fontWeight: "bold",
-  fontSize: "16px",
-  fontFamily: "Roboto Regular",
-};
-
-const signature = {
-  marginRight: 30,
-  fontSize: "12px",
-  fontFamily: "Roboto Light Italic",
 };
 
 export default TableDocument;

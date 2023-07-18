@@ -56,6 +56,9 @@ export class Device {
     @Column('varchar', { name: 'avatar' })
     avatar: string;
 
+    @Column('varchar', { name: 'document' })
+    document: string;
+
     @Column('int', { name: 'provider_id', nullable: false })
     provider_id: number;
 

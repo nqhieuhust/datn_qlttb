@@ -75,6 +75,11 @@ export class UpdateDeviceDto {
     @IsString()
     avatar?: string;
 
+    @ApiProperty()
+	@IsOptional()
+    @IsString()
+    document?: string;
+
 	@ApiProperty()
 	@IsOptional()
     @IsNumber()
