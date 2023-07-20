@@ -32,8 +32,8 @@ export class User {
     @Column('varchar', { name: 'department_id' })
     department_id: number;
 
-    @Column('timestamp', { name: 'email_verified_at' })
-    email_verified_at: Date;
+    // @Column('timestamp', { name: 'email_verified_at' })
+    // email_verified_at: Date;
 
     @Column('varchar', { name: 'remember_token' })
     remember_token: string;

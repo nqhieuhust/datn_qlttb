@@ -40,9 +40,9 @@ export class UpdateUserDto {
 	@IsString()
 	address?: string;
 
-	@ApiProperty()
-	@IsOptional()
-	email_verified_at?: Date;
+	// @ApiProperty()
+	// @IsOptional()
+	// email_verified_at?: Date;
 
 	updated_at?: any = new Date();
 }

@@ -19,14 +19,14 @@ function Sidebar({ color, image, routes, role }) {
             <div className="sidebar-wrapper">
                 <div className="logo d-flex align-items-center justify-content-start">
                     <a
-                        href="/admin"
+                        href="/dashboard"
                         className="simple-text logo-mini mx-1"
                     >
                         <div className="logo-img">
                             <img src={require("assets/img/logo.png")} alt="..." />
                         </div>
                     </a>
-                    <a className="simple-text" href="/admin">QUẢN LÝ THIẾT BỊ</a>
+                    <a className="simple-text" href="/dashboard">QUẢN LÝ THIẾT BỊ</a>
                 </div>
                 <Nav>
                     {role && routes.map((prop, key) => {

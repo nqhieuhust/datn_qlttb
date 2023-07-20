@@ -27,7 +27,7 @@ function Header() {
                 return routes[i].name;
             }
         }
-        return "Brand";
+        return "Quản lý thiết bị";
     };
 
     return (

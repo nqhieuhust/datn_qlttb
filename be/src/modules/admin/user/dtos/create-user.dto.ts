@@ -54,9 +54,9 @@ export class CreateUserDto {
 	@IsString()
 	address?: string;
 
-	@ApiProperty()
-	@IsOptional()
-	email_verified_at?: Date;
+	// @ApiProperty()
+	// @IsOptional()
+	// email_verified_at?: Date;
 
 	created_at: any = new Date();
 	updated_at: any = new Date();

@@ -1,6 +1,7 @@
 {
   "name": "fe",
   "version": "2.0.1",
+  "homepage": "https://nqhieuhust.github.io/datn_qlttb/",
   "dependencies": {
     "@fortawesome/fontawesome-free": "5.15.2",
     "@react-pdf/renderer": "^3.1.12",
@@ -8,6 +9,7 @@
     "axios": "^1.4.0",
     "bootstrap": "4.6.0",
     "chartist": "0.11.4",
+    "gh-pages": "^5.0.0",
     "gulp": "4.0.2",
     "gulp-append-prepend": "1.0.9",
     "mdb-react-ui-kit": "^6.1.0",
@@ -39,7 +41,9 @@
     "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
     "compile:scss": "sass src/assets/scss/light-bootstrap-dashboard-pro-react.scss src/assets/css/light-bootstrap-dashboard-pro-react.css",
     "minify:scss": "sass src/assets/scss/light-bootstrap-dashboard-pro-react.scss src/assets/css/light-bootstrap-dashboard-pro-react.min.css --style compressed",
-    "build:scss": "npm run compile:scss && npm run minify:scss"
+    "build:scss": "npm run compile:scss && npm run minify:scss",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "peerDependencies": {
     "react": ">=16.8.0",
