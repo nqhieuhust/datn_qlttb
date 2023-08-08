@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Provider } from 'src/entities/provider.entity';
 import {Equal, Raw, Repository} from 'typeorm';
+import { Provider } from 'src/entities/provider.entity';
 import { CreateProviderDto } from './dtos/create-provider.dto';
+import {UpdateProviderDto} from "./dtos/update-provider.dto";
 import {IPaging} from "../../../helpers/interface/paging.interface";
 import {Paging} from "../../../helpers/response/response";
-import {UpdateProviderDto} from "./dtos/update-provider.dto";
 
 @Injectable()
 export class ProviderService {

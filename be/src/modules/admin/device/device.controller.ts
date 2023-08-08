@@ -93,29 +93,30 @@ export class DeviceController {
 		}
 	}
 
-	@Get('/total')
-	@UseGuards(new RoleGuard([1, 2, 3]))
-	@HttpCode(HttpStatus.OK)
-	@ApiResponse({ status: 200, description: 'success' })
-	async getTotal(@Request() req: any) {
-		try {
-			const filters = {
-				from_date: (req.query.from_date?.trim() != '' && req.query.from_date?.trim()) || null,
-				to_date: (req.query.to_date?.trim() != '' && req.query.to_date?.trim()) || null,
-			}
-			const paging: IPaging = {
-				page: req.query.page || 1,
-				page_size: req.query.page_size || 20
-			};
-			let responseData: any = await this.deviceService.getLists(paging, filters, req);
+	// @Get('/total')
+	// @UseGuards(new RoleGuard([1, 2, 3]))
+	// @HttpCode(HttpStatus.OK)
+	// @ApiResponse({ status: 200, description: 'success' })
+	// async getTotal(@Request() req: any) {
+	// 	try {
+	// 		const filters = {
+	// 			from_date: (req.query.from_date?.trim() != '' && req.query.from_date?.trim()) || null,
+	// 			to_date: (req.query.to_date?.trim() != '' && req.query.to_date?.trim()) || null,
+	// 		}
+	// 		const paging: IPaging = {
+	// 			page: req.query.page || 1,
+	// 			page_size: req.query.page_size || 20
+	// 		};
+	// 		let responseData: any = await this.deviceService.getLists(paging, filters, req);
 
-			return BaseResponse(HTTP_STATUS.success, responseData, '', 'Successful');
+	// 		return BaseResponse(HTTP_STATUS.success, responseData, '', 'Successful');
 
-		} catch (e) {
-			console.log('AccessoryController@getLists ---------->', e.message);
-			return BaseResponse(e.status, e.response, e.code || 'E0001', e.message);
-		}
-	}
+	// 	} catch (e) {
+	// 		console.log('AccessoryController@getLists ---------->', e.message);
+	// 		return BaseResponse(e.status, e.response, e.code || 'E0001', e.message);
+	// 	}
+	// }
+
 
 	@Get('show/:id')
 	@UseGuards(new RoleGuard([1, 2, 3]))
@@ -125,7 +126,7 @@ export class DeviceController {
 		try {
 			const res = await this.deviceService.getById(id);
 			if (!res)
-				return BaseResponse(HTTP_STATUS.fail, {}, 'E0001', 'provider does not exist');
+				return BaseResponse(HTTP_STATUS.fail, {}, 'E0001', 'device does not exist');
 			else
 				return BaseResponse(HTTP_STATUS.success, res, '', 'Successful!');
 		} catch (e) {

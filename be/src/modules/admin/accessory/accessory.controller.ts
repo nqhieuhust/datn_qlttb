@@ -55,7 +55,7 @@ export class AccessoryController {
 
 
 	@Delete(':id')
-	@UseGuards(new RoleGuard([1, 2]))
+	@UseGuards(new RoleGuard([1]))
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async deleteDataById(@Param('id') id: number) {
@@ -97,7 +97,7 @@ export class AccessoryController {
 		try {
 			const res = await this.accessoryService.getById(id);
 			if (!res)
-				return BaseResponse(HTTP_STATUS.fail, {}, 'E0001', 'provider does not exist');
+				return BaseResponse(HTTP_STATUS.fail, {}, 'E0001', 'Accessory does not exist');
 			else
 				return BaseResponse(HTTP_STATUS.success, res, '', 'Successful!');
 		} catch (e) {

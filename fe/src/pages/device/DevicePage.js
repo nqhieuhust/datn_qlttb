@@ -9,6 +9,7 @@ import deviceApi from "api/admin/deviceService";
 import uploadApi from "api/upload/uploadService";
 import userApi from "api/admin/userService";
 import { useDispatch } from "react-redux";
+import QRCode from 'qrcode.react';
 import { toggleShowLoading } from "redux/actions/common-action";
 import {
   Pagination,
@@ -25,7 +26,7 @@ import { FilterDevice } from "./filter";
 import defaultImg from "../../assets/img/image_faildoad.png";
 import moment from "moment";
 function DevicePage() {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
   const [isShowDetail, setIsShowDetail] = useState(false);
@@ -45,6 +46,7 @@ function DevicePage() {
   const [type, setType] = useState();
   const [manager_device, setManagerDevice] = useState();
   const [avatar, setAvatar] = useState();
+  const [qrCode, setQrCode] = useState();
   const [document, setDocument] = useState();
   const [provider_id, setProviderId] = useState();
   const [department_id, setDepartmentId] = useState();
@@ -56,14 +58,6 @@ function DevicePage() {
 
   // Xử lý dữ liệu về couuntry
   const [countryOptions, setCountryOptions] = useState([]);
-
-  // const onChange = (value: string) => {
-  //   console.log(`selected ${value}`);
-  // };
-
-  // const onSearch = (value: string) => {
-  //   console.log('search:', value);
-  // };
 
   useEffect(() => {
     // Gọi API để lấy danh sách quốc gia
@@ -157,6 +151,7 @@ function DevicePage() {
   };
 
   const [form, setForm] = useState({});
+  console.log(form)
   const [errors, setErrors] = useState({});
 
   const role = Number(localStorage.getItem("role"));
@@ -176,20 +171,20 @@ function DevicePage() {
 
   const getDeviceList = async (filters) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       dispatch(toggleShowLoading(true));
       const response = await deviceApi.getDevices(filters);
       await timeDelay(1000);
       if (response.status === "success") {
         setDevices(response.data.devices);
         setPaging({ ...response.data.meta });
-        setLoading(false);
+        // setLoading(false);
       } else {
         message.error(response.message);
       }
       dispatch(toggleShowLoading(false));
     } catch (e) {
-      setLoading(false);
+      // setLoading(false);
       message.error(e.message);
       dispatch(toggleShowLoading(false));
     }
@@ -271,6 +266,8 @@ function DevicePage() {
       setLoadingForm(true);
       dispatch(toggleShowLoading(true));
       const response = await deviceApi.getDeviceById(id);
+
+      console.log(response);
       await timeDelay(1000);
       if (response.status === "success") {
         setIsChangeFile(false);
@@ -288,6 +285,7 @@ function DevicePage() {
         setProviderId(response.data.provider_id);
         setDepartmentId(response.data.department_id);
         setUserId(response.data.user_id);
+        setQrCode(response.data.qrCode);
         setForm({
           device_name: response.data.device_name,
           code: response.data.code,
@@ -296,6 +294,7 @@ function DevicePage() {
           status: response.data.status,
           countries: response.data.countries,
           avatar: response.data.avatar,
+          qrCode: response.data.qrCode,
           document: response.data.document,
           user_id: response.data.user_id,
           provider_id: response.data.provider_id,
@@ -341,13 +340,12 @@ function DevicePage() {
           form.avatar = responseFile.data.data.destination;
           // form.document = responseFile.data.data.destination;
         } else {
-          setErrors({ avatar: "Tải ảnh lên bị lỗi!" });
+          setErrors({ avatar: "Ảnh chưa được tải lên!" });
           // setErrors({ document: "Tải file lên bị lỗi!" });
           setLoadingButton(false);
           dispatch(toggleShowLoading(false));
           return;
         }
-
 
         if (form.status) form.status = parseInt(form.status);
         if (form.type) form.type = parseInt(form.type);
@@ -356,7 +354,9 @@ function DevicePage() {
         if (form.department_id)
           form.department_id = parseInt(form.department_id);
         // form.user_id = 1;
+
         const response = await deviceApi.createDevice(form);
+        // console.log(response);
         await timeDelay(1000);
         if (response.status === 201 || response.status === "success") {
           getDeviceList({ page: 1 });
@@ -410,8 +410,7 @@ function DevicePage() {
         if (form.type) form.type = parseInt(form.type);
         if (form.provider_id) form.provider_id = parseInt(form.provider_id);
         if (form.user_id) form.user_id = parseInt(form.user_id);
-        if (form.department_id)
-          form.department_id = parseInt(form.department_id);
+        if (form.department_id) form.department_id = parseInt(form.department_id);
         // form.user_id = 1;
         const response = await deviceApi.updateDevice(id, form);
         await timeDelay(1000);
@@ -467,51 +466,11 @@ function DevicePage() {
   };
 
   const handleBroken = async (id) => {
-    try {
-      setLoadingButton(true);
-      const newErrors = findFormErrors(2);
-      if (Object.keys(newErrors).length > 0) {
-        setErrors(newErrors);
-        setLoadingButton(false);
-      } else {
-        dispatch(toggleShowLoading(true));
-
-        // if (form.status) form.status = parseInt(form.status);
-        if (form.provider_id) form.provider_id = parseInt(form.provider_id);
-        if (form.user_id) form.user_id = parseInt(form.user_id);
-        if (form.department_id)
-          form.department_id = parseInt(form.department_id);
-        // form.user_id = 1;
-        const response = await deviceApi.updateDevice(id, form);
-        await timeDelay(1000);
-        await timeDelay(1000);
-        if (response.status === "success") {
-          getDeviceList({ page: 1 });
-          handleBrokenOff();
-          message.success("Báo hỏng thành công!");
-          setLoadingButton(false);
-        } else if (response.status === "fail" && response.data) {
-          let error = Object.entries(response.data) || [];
-          if (error.length > 0) {
-            let messageError = error.reduce((newMessage, item) => {
-              newMessage[`${item[0]}`] = item[1][0];
-              return newMessage;
-            }, {});
-            setErrors(messageError);
-          }
-          dispatch(toggleShowLoading(false));
-          setLoadingButton(false);
-        } else {
-          message.error(response.message);
-          setLoadingButton(false);
-        }
-        dispatch(toggleShowLoading(false));
-      }
-    } catch (e) {
-      console.log(e);
-      message.error(e.message);
+    setLoadingButton(true);
+    const newErrors = findFormErrors(3);
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
       setLoadingButton(false);
-      dispatch(toggleShowLoading(false));
     }
   };
 
@@ -540,15 +499,14 @@ function DevicePage() {
         newErrors.model = "Số model thiết bị không được để trống!";
       // if (!form.serial || form.serial === "")
       //   newErrors.serial = "Số serial thiết bị không được để trống!";
-      // if (!form.manager_device || form.manager_device === "")
-      //   newErrors.manager_device = "Người quản lý thiết bị không được để trống!";
       if (!form.user_id || form.user_id === "")
         newErrors.user_id = "Người quản lý thiết bị không được để trống!";
       if (!form.manufacture || form.manufacture === "")
         newErrors.manufacture = "Hãng sản xuất không được để trống!";
       if (!form.countries || form.countries === "")
         newErrors.countries = "Nơi xuất xứ không được để trống!";
-      // if (!form.avatar || form.avatar === '') newErrors.avatar = 'Avatar cannot be blank!';
+      // if (!form.avatar || form.avatar === '')
+      //   newErrors.avatar = 'Ảnh mô tả không được để trống!';
       if (!form.status || form.status === "")
         newErrors.status = "Trạng thái không được để trống!";
       if (!form.type || form.type === "")
@@ -557,6 +515,12 @@ function DevicePage() {
         newErrors.provider_id = "Nhà cung cấp không được để trống!";
       if (!form.department_id || form.department_id === "")
         newErrors.department_id = "Khoa/Phòng không được để trống!";
+      if (!form.import_date || form.import_date === "")
+        newErrors.import_date = "Ngày nhập không được để trống!";
+      if (!form.handover_date || form.handover_date === "")
+        newErrors.handover_date = "Ngày bàn giao không được để trống!";
+      if (!form.expire_date || form.expire_date === "")
+        newErrors.expire_date = "Hạn bảo hành không được để trống!";
     }
     if (type == 2) {
       if (!device_name || device_name === "")
@@ -575,6 +539,15 @@ function DevicePage() {
       // if ( !department_id || department_id === '' ) newErrors.department_id = 'Department cannot be blank!';
     }
 
+    if (type == 3) {
+      if (!form.broken_date || form.broken_date === "")
+        newErrors.broken_date = "Ngày báo hỏng không được để trống!";
+      if (!form.broken_reason || form.broken_reason === "")
+        newErrors.broken_reason = "Lí do hỏng không được để trống!";
+      // if (!form.other_reason || form.other_reason === "")
+      //   newErrors.other_reason = "Lí do khác không được để trống!";
+    }
+
     return newErrors;
   };
 
@@ -583,6 +556,8 @@ function DevicePage() {
     { value: 2, label: "Đang báo hỏng" },
     { value: 3, label: "Đang sửa chữa" },
     { value: 4, label: "Đang bảo hành" },
+    { value: 5, label: "Đã sửa xong" },
+    { value: 6, label: "Đã thanh lí" },
   ];
 
   const typeConfig = [
@@ -601,6 +576,7 @@ function DevicePage() {
     { value: 6, label: "Màn hình không hiển thị" },
   ];
 
+  // Xử lý khi upload ảnh
   const handleUpload = async (e) => {
     if (e && e.target.files[0] && !isShowDetail) {
       setFile(e.target.files[0]);
@@ -631,9 +607,17 @@ function DevicePage() {
           return (
             <span className="text-warning">{nameStatus?.label || "N/A"}</span>
           );
-        default:
+        case 4:
           return (
             <span className="text-primary"> {nameStatus?.label || "N/A"} </span>
+          );
+        case 5:
+          return (
+            <span className="text-info"> {nameStatus?.label || "N/A"} </span>
+          );
+        default:
+          return (
+            <span className="text-muted"> {nameStatus?.label || "N/A"} </span>
           );
       }
     }
@@ -694,7 +678,6 @@ function DevicePage() {
                       <th className="border-0 text-nowrap">Khoa/Phòng</th>
                       <th className="border-0 text-nowrap">Nhà cung cấp</th>
                       <th className="border-0 text-nowrap">Trạng thái</th>
-
                       <th className="border-0">Hành động</th>
                     </tr>
                   </thead>
@@ -758,8 +741,8 @@ function DevicePage() {
                           </td>
                           <td className="tex-nowrap" style={{ minWidth: 100 }}>
                             <div className="d-flex justify-between align-items-center">
-                              {role !== 3 ? (
-                                <>
+                              <>
+                                {role !== 3 && (
                                   <button
                                     className={
                                       "btn btn-sm btn-info text-nowrap"
@@ -772,6 +755,8 @@ function DevicePage() {
                                   >
                                     Sửa
                                   </button>
+                                )}
+                                {role === 1 && (
                                   <button
                                     className={
                                       "btn btn-sm btn-danger ml-2 text-nowrap"
@@ -784,8 +769,9 @@ function DevicePage() {
                                   >
                                     Xóa
                                   </button>
-                                </>
-                              ) : (
+                                )}
+                              </>
+                              {role === 3 && (
                                 <button
                                   className={
                                     "btn btn-sm btn-danger text-nowrap"
@@ -856,14 +842,14 @@ function DevicePage() {
             style={{ padding: "5px 20px", marginRight: 5 }}
             onClick={() => handleDelete(idDel)}
           >
-            Yes
+            Đồng ý
           </button>
           <button
             className="btn btn-secondary"
             style={{ padding: "5px 20px", marginLeft: 5 }}
             onClick={() => setShowModal(false)}
           >
-            No
+            Hủy
           </button>
         </Modal.Footer>
       </Modal>
@@ -982,8 +968,6 @@ function DevicePage() {
                 </Form.Group>
               </div>
 
-        
-
               <div className="col-md-4">
                 <Form.Group style={{ marginTop: 10 }}>
                   <Form.Label>Xuất xứ:</Form.Label>
@@ -1016,8 +1000,6 @@ function DevicePage() {
                   )}
                 </Form.Group>
               </div>
-
-             
 
               <div className="col-md-4">
                 <Form.Group style={{ marginTop: 10 }}>
@@ -1312,8 +1294,6 @@ function DevicePage() {
                   )}
                 </Form.Group>
               </div> */}
-
-          
             </div>
           </Form>
         </Modal.Body>
@@ -1559,8 +1539,6 @@ function DevicePage() {
                     </Form.Group>
                   </div>
 
-                 
-
                   <div className="col-md-4 mb-2">
                     <Form.Group style={{ marginTop: 10 }}>
                       <Form.Label>Loại thiết bị:</Form.Label>
@@ -1618,7 +1596,6 @@ function DevicePage() {
                       )}
                     </Form.Group>
                   </div>
-                  
 
                   <div className="col-md-4 mb-2">
                     <Form.Group style={{ marginTop: 10 }}>
@@ -1909,6 +1886,7 @@ function DevicePage() {
                       )}
                     </Form.Group>
                   </div> */}
+                  
                 </div>
               </Form>
             </Modal.Body>
@@ -2043,8 +2021,6 @@ function DevicePage() {
                     </Form.Group>
                   </div>
 
-                 
-
                   <div className="col-md-4 mb-2">
                     <Form.Group style={{ marginTop: 10 }}>
                       <Form.Label>Người quản lý:</Form.Label>
@@ -2082,15 +2058,12 @@ function DevicePage() {
                       <Form.Control
                         type="date"
                         placeholder="Enter import date"
-                        value={form.import_date}
-                        readOnly={isShowDetail}
                         onChange={(e) => {
-                          if (!isShowDetail)
-                            setField("import_date", e.target.value);
+                          setField("broken_date", e.target.value);
                         }}
-                        isInvalid={!!errors.import_date}
+                        isInvalid={!!errors.broken_date}
                       />
-                      {errors.import_date && (
+                      {errors.broken_date && (
                         <span
                           style={{
                             fontSize: 12,
@@ -2098,7 +2071,7 @@ function DevicePage() {
                             fontWeight: 100,
                           }}
                         >
-                          {errors.import_date}
+                          {errors.broken_date}
                         </span>
                       )}
                     </Form.Group>
@@ -2111,12 +2084,19 @@ function DevicePage() {
                         <Row>
                           {optionsBroken.map((option) => (
                             <Col span={12}>
-                              <Radio value={option.value}>{option.label}</Radio>
+                              <Radio
+                                value={option.value}
+                                onChange={(e) => {
+                                  setField("broken_reason", e.target.value);
+                                }}
+                              >
+                                {option.label}
+                              </Radio>
                             </Col>
                           ))}
                         </Row>
                       </Radio.Group>
-                      {errors.model && (
+                      {errors.broken_reason && (
                         <span
                           style={{
                             fontSize: 12,
@@ -2124,7 +2104,7 @@ function DevicePage() {
                             fontWeight: 100,
                           }}
                         >
-                          {errors.model}
+                          {errors.broken_reason}
                         </span>
                       )}
                     </Form.Group>
@@ -2137,10 +2117,12 @@ function DevicePage() {
                         as="textarea"
                         rows={3}
                         placeholder="Nhập lý do khác"
-                        onChange={(e) => setField("model", e.target.value)}
+                        onChange={(e) =>
+                          setField("other_reason", e.target.value)
+                        }
                         isInvalid={!!errors.model}
                       />
-                      {errors.model && (
+                      {errors.other_reason && (
                         <span
                           style={{
                             fontSize: 12,
@@ -2148,7 +2130,7 @@ function DevicePage() {
                             fontWeight: 100,
                           }}
                         >
-                          {errors.model}
+                          {errors.other_reason}
                         </span>
                       )}
                     </Form.Group>

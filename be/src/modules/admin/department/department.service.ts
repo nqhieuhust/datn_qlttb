@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Equal, Raw, Repository } from 'typeorm';
 import { Department } from 'src/entities/department.entity';
 import { IPaging, Paging } from 'src/helpers/helper';
-import { Equal, Raw, Repository } from 'typeorm';
 
 @Injectable()
 export class DepartmentService {

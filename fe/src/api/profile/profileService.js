@@ -7,7 +7,7 @@ const profileApi = {
 	},
 
 	async updateProfile(data) {
-		return await axiosClient.put(`auth/profile`, data);
+		return await axiosClient.put(`auth/profile/update`, data);
 	},
 }
 

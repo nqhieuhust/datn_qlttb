@@ -40,9 +40,7 @@ export class ValidateService {
 				}
 			}
 			if (!regexPass.test(userDto.password)) {
-				errorData.password = newArrayError(errorData.password, 'Password is invalid!');
-			}if (!regexPass.test(userDto.password)) {
-				errorData.password = newArrayError(errorData.password, 'Password is invalid!');
+				errorData.password = newArrayError(errorData.password, 'Mật khẩu không hợp lệ');
 			}
 		}
 

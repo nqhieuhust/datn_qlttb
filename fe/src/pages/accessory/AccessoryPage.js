@@ -12,9 +12,10 @@ import { Pagination, message } from "antd";
 import { FilterAccessory } from "./filter";
 
 function AccessoryPage() {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [paging, setPaging] = useState({ page: 1, page_size: 20, total: 0 });
   const [params, setParams] = useState({});
@@ -75,9 +76,7 @@ function AccessoryPage() {
   const [errors, setErrors] = useState({});
 
   useEffect(() => {
-    if (role !== 3) {
-      getProviderList({ page: 1, page_size: 200 });
-    }
+    getProviderList({ page: 1, page_size: 200 });
   }, []);
 
   useEffect(() => {
@@ -87,7 +86,7 @@ function AccessoryPage() {
 
   const getAccessoryList = async (filters) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       dispatch(toggleShowLoading(true));
       const response = await accessoryApi.getAccessories(filters);
       await timeDelay(1000);
@@ -95,12 +94,12 @@ function AccessoryPage() {
         setAccessories(response.data.accessories);
         setPaging({ ...response.data.meta });
       }
-      setLoading(false);
+      // setLoading(false);
       dispatch(toggleShowLoading(false));
     } catch (e) {
       console.log("list acc-------> ", e);
       dispatch(toggleShowLoading(false));
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
@@ -393,19 +392,27 @@ function AccessoryPage() {
                           <td className="text-break" style={{ minWidth: 250 }}>
                             {item.provider?.provider_name || "N/A"}
                           </td>
-                          <td className={item.status === 1 ? "text-success" : "text-danger"} style={{ minWidth: 100 }}>
+                          <td
+                            className={
+                              item.status === 1 ? "text-success" : "text-danger"
+                            }
+                            style={{ minWidth: 100 }}
+                          >
                             {item.status === 1 && "Đang còn"}
                             {item.status === 2 && "Đã hết"}
                           </td>
-                          {role !== 3 && (
-                            <td className="d-flex justify-between align-items-center">
+
+                          <td className="d-flex justify-between align-items-center">
+                            {role !== 3 && (
                               <button
                                 className={"btn btn-sm btn-info text-nowrap"}
-                                style={{ padding: "3px 8px", width: 65 }}
+                                style={{ padding: "3px 8px", width: 80 }}
                                 onClick={() => handleEditOn(item.id)}
                               >
                                 Sửa
                               </button>
+                            )}
+                            {role === 1 && (
                               <button
                                 className={
                                   "btn btn-sm btn-danger text-nowrap ml-2"
@@ -418,8 +425,8 @@ function AccessoryPage() {
                               >
                                 Xóa
                               </button>
-                            </td>
-                          )}
+                            )}
+                          </td>
                         </tr>
                       ))
                     ) : (
@@ -444,6 +451,7 @@ function AccessoryPage() {
                   </tbody>
                 </Table>
               </Card.Body>
+
               {paging.total > 0 && (
                 <div className="mx-auto my-4">
                   <Pagination

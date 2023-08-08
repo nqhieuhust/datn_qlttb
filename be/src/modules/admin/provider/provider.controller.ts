@@ -72,7 +72,7 @@ export class ProviderController {
 
 	@Delete(':id')
 	@HttpCode(HttpStatus.OK)
-	@UseGuards(new RoleGuard([1, 2]))
+	@UseGuards(new RoleGuard([1]))
 	@ApiResponse({ status: 200, description: 'success' })
 	async deleteProvider(@Param('id') id: number) {
 		try {

@@ -94,7 +94,7 @@ export const FilterUser = (props) => {
             />
           </Form.Group>
         </div>
-        <div className="col-md-4 mb-2 form-group">
+        {/* <div className="col-md-4 mb-2 form-group">
           <Form.Group>
             <Form.Label>Email: </Form.Label>
             <Input
@@ -104,7 +104,7 @@ export const FilterUser = (props) => {
               onChange={(e) => setField(form, "email", e.target.value, setForm)}
             />
           </Form.Group>
-        </div>
+        </div> */}
         <div className="col-md-4 mb-2 form-group">
           <Form.Group>
             <Form.Label>Trạng thái: </Form.Label>

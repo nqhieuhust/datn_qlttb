@@ -4,7 +4,6 @@ import { setItem } from "../common";
 
 export const authLogin = async (dataLogin) => {
   try {
-    // setLoading( true );
     const response = await axiosClient.post("auth/login", dataLogin);
     console.log(response);
     if (response && response.status == "success" && response.data) {
@@ -19,16 +18,10 @@ export const authLogin = async (dataLogin) => {
       return true;
     } else {
       message.error(response.message);
-      // alert('Sai tên đăng nhập hoặc mật khẩu!');
+      return false;
     }
-    // setLoading( false );
-    return false;
   } catch (error) {
     message.error(error);
     return false;
   }
-};
-
-export const authRegister = async (dataRegister) => {
-  return await axiosClient.post("auth/register/admin", dataRegister);
 };

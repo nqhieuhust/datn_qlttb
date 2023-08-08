@@ -33,8 +33,6 @@ export class Device {
     @Column('varchar', { name: 'manufacture' })
     manufacture: string;
 
-
-
     @Column('timestamp', { name: 'import_date' })
 	import_date: Date;
 
@@ -55,6 +53,9 @@ export class Device {
 
     @Column('varchar', { name: 'avatar' })
     avatar: string;
+
+    @Column('varchar', { name: 'qrCode' })
+    qrCode: string;
 
     @Column('varchar', { name: 'document' })
     document: string;

@@ -10,7 +10,7 @@ import { timeDelay } from "../../common";
 import { FilterProvider } from "./filters";
 
 function ProviderPage() {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
   const [paging, setPaging] = useState({ page: 1, page_size: 20, total: 0 });
@@ -69,6 +69,8 @@ function ProviderPage() {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
 
+  const role = Number(localStorage.getItem("role"));
+
   useEffect(() => {
     // paging.page = currentPage;
     getProviderList({ ...paging });
@@ -76,23 +78,23 @@ function ProviderPage() {
 
   const getProviderList = async (filters) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       dispatch(toggleShowLoading(true));
       const response = await providerApi.getProviders(filters);
       await timeDelay(1000);
       if (response.status === "success") {
         setProviders(response.data.providers);
         setPaging({ ...response.data.meta });
-        setLoading(false);
+        // setLoading(false);
         dispatch(toggleShowLoading(false));
       } else {
         message.error(response.message || "Lỗi! Vui lòng thử lại.");
         dispatch(toggleShowLoading(false));
       }
-      setLoading(false);
+      // setLoading(false);
     } catch (e) {
       console.log(e);
-      setLoading(false);
+      // setLoading(false);
       message.error(response.message || "Lỗi! Vui lòng thử lại.");
       dispatch(toggleShowLoading(false));
     }
@@ -299,14 +301,16 @@ function ProviderPage() {
                   as="h4"
                 >
                   Danh sách Nhà cung cấp
-                  <button
-                    onClick={() => setShowCre(true)}
-                    type="button"
-                    className="btn btn-info"
-                    style={{ padding: "6px 14px", fontSize: 14 }}
-                  >
-                    <span>Thêm mới</span>
-                  </button>
+                  {role !== 3 && (
+                    <button
+                      onClick={() => setShowCre(true)}
+                      type="button"
+                      className="btn btn-info"
+                      style={{ padding: "6px 14px", fontSize: 14 }}
+                    >
+                      <span>Thêm mới</span>
+                    </button>
+                  )}
                 </Card.Title>
                 <div className="my-4">
                   <FilterProvider
@@ -328,7 +332,9 @@ function ProviderPage() {
                       <th className="border-0 text-nowrap">Người đại diện</th>
                       <th className="border-0 text-nowrap">Số điện thoại</th>
                       <th className="border-0 text-nowrap">Email</th>
-                      <th className="border-0 text-nowrap">Hành động</th>
+                      {role !== 3 && (
+                        <th className="border-0 text-nowrap">Hành động</th>
+                      )}
                     </tr>
                   </thead>
                   <tbody>
@@ -350,28 +356,34 @@ function ProviderPage() {
                           <td className="text-nowrap" style={{ minWidth: 150 }}>
                             {item.mobile || "N/A"}
                           </td>
+
                           <td className="text-nowrap">{item.email || "N/A"}</td>
+
                           <td>
                             <div className="d-flex justify-between align-items-center">
-                              <button
-                                className={"btn btn-sm btn-info text-nowrap"}
-                                style={{ padding: "3px 8px", width: 65 }}
-                                onClick={() => handleEditOn(item.id)}
-                              >
-                                Sửa
-                              </button>
-                              <button
-                                className={
-                                  "btn btn-sm btn-danger ml-2 text-nowrap"
-                                }
-                                style={{ padding: "3px 8px", width: 65 }}
-                                onClick={() => {
-                                  setShowModal(true);
-                                  setIdDel(item.id);
-                                }}
-                              >
-                                Xóa
-                              </button>
+                              {role !== 3 && (
+                                <button
+                                  className={"btn btn-sm btn-info text-nowrap"}
+                                  style={{ padding: "3px 8px", width: 65 }}
+                                  onClick={() => handleEditOn(item.id)}
+                                >
+                                  Sửa
+                                </button>
+                              )}
+                              {role === 1 && (
+                                <button
+                                  className={
+                                    "btn btn-sm btn-danger ml-2 text-nowrap"
+                                  }
+                                  style={{ padding: "3px 8px", width: 65 }}
+                                  onClick={() => {
+                                    setShowModal(true);
+                                    setIdDel(item.id);
+                                  }}
+                                >
+                                  Xóa
+                                </button>
+                              )}
                             </div>
                           </td>
                         </tr>

@@ -5,7 +5,7 @@ const departmentApi = {
 
 	async getDepartments(params = null) {
 		let filters = params ? buildFilter(params) : null;
-		return await axiosClient.get(`department/list`, {params: filters});
+		return await axiosClient.get(`department`, {params: filters});
 	},
 
 	async getDepartmentById(id) {

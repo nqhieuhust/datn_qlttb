@@ -9,7 +9,7 @@ import { connect } from "react-redux";
 import { toggleShowLoading } from "redux/actions/common-action";
 
 function User({ dispatch, showLoading }) {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
 
   const [nameShow, setNameShow] = useState();
@@ -31,7 +31,7 @@ function User({ dispatch, showLoading }) {
 
   const getProfile = async () => {
     try {
-      setLoading(true);
+      // setLoading(true);
       dispatch(toggleShowLoading(true));
       const response = await profileApi.getProfile();
       await timeDelay(1000);
@@ -45,12 +45,12 @@ function User({ dispatch, showLoading }) {
         setMobile(response.data.mobile);
         setAddress(response.data.address);
       } else {
-        message.error(response.message || "Error! Please try again");
+        message.error(response.message || "Lỗi! Vui lòng thử lại");
       }
-      setLoading(false);
+      // setLoading(false);
       dispatch(toggleShowLoading(false));
     } catch (e) {
-      setLoading(false);
+      // setLoading(false);
       dispatch(toggleShowLoading(false));
     }
   };
@@ -69,7 +69,7 @@ function User({ dispatch, showLoading }) {
         await timeDelay(1000);
         if (response.status === "success") {
           await getProfile();
-          message.success("Update profile successfully!");
+          message.success("Cập nhật thông tin thành công!");
           setLoadingButton(false);
         } else {
           message.error(response.message);
@@ -100,19 +100,20 @@ function User({ dispatch, showLoading }) {
     }
   };
 
+
+  // Tìm kiếm lỗi khi nhập thông tin và hiển thị thông báo lỗi cho người dùng
   const findFormErrors = () => {
     const newErrors = {};
     if (!full_name || full_name === "")
-      newErrors.full_name = "Full name cannot be blank!";
+      newErrors.full_name = "Họ và tên không được để trống!";
     if (!address || address === "")
-      newErrors.address = "Address cannot be blank!";
-    if (!mobile || mobile === "") newErrors.mobile = "Mobile cannot be blank!";
+      newErrors.address = "Địa chỉ không được để trống!";
+    if (!mobile || mobile === "") newErrors.mobile = "Số điện thoại không được để trống!";
     else if (!/((09|03|07|08|05|04|\+84|84)+([0-9]{8,9})\b)/g.test(mobile))
-      newErrors.mobile = "Phone number invalid!";
-    if (!email || email === "") newErrors.email = "Email cannot be blank!";
+      newErrors.mobile = "Số điện thoại không hợp lệ!";
+    if (!email || email === "") newErrors.email = "Email không được để trống!";
     else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email))
-      newErrors.email = "Email invalid!";
-
+      newErrors.email = "Email không hợp lệ!";
     return newErrors;
   };
 
@@ -308,32 +309,7 @@ function User({ dispatch, showLoading }) {
                     <p className="description text-center">{addressShow}</p>
                   </Card.Body>
                   <hr></hr>
-                  <div className="button-container mr-auto ml-auto">
-                    <Button
-                      className="btn-simple btn-icon"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      variant="link"
-                    >
-                      <i className="fab fa-facebook-square"></i>
-                    </Button>
-                    <Button
-                      className="btn-simple btn-icon"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      variant="link"
-                    >
-                      <i className="fab fa-twitter"></i>
-                    </Button>
-                    <Button
-                      className="btn-simple btn-icon"
-                      href="#pablo"
-                      onClick={(e) => e.preventDefault()}
-                      variant="link"
-                    >
-                      <i className="fab fa-google-plus-square"></i>
-                    </Button>
-                  </div>
+                  
                 </>
               )}
             </Card>

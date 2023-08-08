@@ -1,3 +1,4 @@
+// Quản lý mã lỗi và thông báo lỗi trên hệ thống
 export class ErrorCode {
     private static createErrorMap(): Map<string, string> {
         const map = new Map()

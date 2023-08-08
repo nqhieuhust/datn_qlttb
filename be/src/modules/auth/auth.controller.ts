@@ -23,6 +23,8 @@ export class AuthController {
 				throw new BadRequestException({ code: 'F0001' });
 			}
 			const result = await this.authService.login(formDto);
+			// console.log("Hai là:", result);
+			
 
 			return BaseResponse(HTTP_STATUS.success, result, '', 'successfully');
 		} catch (error) {
@@ -32,25 +34,8 @@ export class AuthController {
 	}
 
 
-	@Post('refresh')
-	@ApiResponse({ status: 200, description: 'success' })
-	async refreshToken(
-		@Body() formDto: RefreshTokenDto
-	) {
-		try {
-			if (_.isEmpty(formDto)) {
-				throw new BadRequestException({ code: 'F0001' });
-			}
-			const result = await this.authService.refreshToken(formDto);
-
-			return BaseResponse(HTTP_STATUS.success, result, '', 'successfully');
-		} catch (error) {
-			console.log('e@LoginDto----> ', error);
-			return BaseResponse(error.status, error.response, error.code || 'E0001', error.message);
-		}
-	}
-
-	@Put('/profile')
+	// Cập nhật thông tin người dùng
+	@Put('profile/update')
 	@UseGuards(JwtGuard)
 	@ApiResponse({ status: 200, description: 'success' })
 	async updateProfile(
@@ -74,7 +59,8 @@ export class AuthController {
 		}
 	}
 
-	@Get('/profile')
+	// Hiển thị thông tin người dùng
+	@Get('profile')
 	@UseGuards(JwtGuard)
 	@ApiResponse({ status: 200, description: 'success' })
 	async profile(
@@ -94,21 +80,5 @@ export class AuthController {
 		}
 	}
 
-	@Post('register/admin')
-	@ApiResponse({ status: 200, description: 'success' })
-	async registerAdmin(
-		@Body() formDto: any
-	) {
-		try {
-			if (_.isEmpty(formDto)) {
-				throw new BadRequestException({ code: 'F0001' });
-			}
-			const result = await this.authService.registerAdmin(formDto);
-
-			return BaseResponse(HTTP_STATUS.success, result, '', 'successfully');
-		} catch (error) {
-			console.log('e@LoginDto----> ', error);
-			return BaseResponse(error.status, error.response, error.code || 'E0001', error.message);
-		}
-	}
+	
 }

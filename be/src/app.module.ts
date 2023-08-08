@@ -24,7 +24,8 @@ import { UploadModule } from './modules/upload/upload.module';
         DatabaseModule,
         AdminModule,
         AuthModule,
-        UploadModule
+        UploadModule,
+        // Các module khác
     ],
     controllers: [],
     providers: [

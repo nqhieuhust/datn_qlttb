@@ -6,6 +6,7 @@ import { Equal, Like, Raw, Repository } from 'typeorm';
 import { CreateDeviceDto } from './dtos/create-device.dto';
 import { UpdateDeviceDto } from './dtos/update-device.dto';
 import * as moment from 'moment';
+import * as qrcode from 'qrcode';
 
 @Injectable()
 export class DeviceService {
@@ -46,9 +47,15 @@ export class DeviceService {
 	async createData(data: CreateDeviceDto) {
 		data.created_at = new Date();
 		data.updated_at = new Date();
+
+		// const qrCodeText = `${data.code}, ${data.device_name}, ${data.model}`;
+		// const qrCode = await qrcode.toDataURL(qrCodeText);
+		// data.qrCode = qrCode;
+
 		let newData = await this.deviceRepository.create({
 			...data
 		});
+		
 		await this.deviceRepository.save(newData);
 		return newData;
 	}
@@ -80,21 +87,21 @@ export class DeviceService {
 		await this.deviceRepository.delete(id);
 	}
 
-	async getTotalsByFilter(filters: any) {
-		const condition: any = {};
-		if(filters) {
-			if( filters.from_date && filters.from_date != '' ) {
-				let fromDate = moment(filters.from_date).startOf('day').format('yyyy-MM-DD hh:mm:ss');
-				condition.created_at = Raw(alias => `${alias} >= '${fromDate}'`);
-			}
+	// async getTotalsByFilter(filters: any) {
+	// 	const condition: any = {};
+	// 	if(filters) {
+	// 		if( filters.from_date && filters.from_date != '' ) {
+	// 			let fromDate = moment(filters.from_date).startOf('day').format('yyyy-MM-DD hh:mm:ss');
+	// 			condition.created_at = Raw(alias => `${alias} >= '${fromDate}'`);
+	// 		}
 
-			if( filters.to_date && filters.to_date != '' ) {
-				let toDate = moment(filters.to_date).endOf('day').format('yyyy-MM-DD hh:mm:ss');
-				condition.created_at = Raw(alias => `${alias} <= '${toDate}'`);
-			}
-		}
-		return await this.deviceRepository.count({
-			where: condition
-		});
-	}
+	// 		if( filters.to_date && filters.to_date != '' ) {
+	// 			let toDate = moment(filters.to_date).endOf('day').format('yyyy-MM-DD hh:mm:ss');
+	// 			condition.created_at = Raw(alias => `${alias} <= '${toDate}'`);
+	// 		}
+	// 	}
+	// 	return await this.deviceRepository.count({
+	// 		where: condition
+	// 	});
+	// }
 }

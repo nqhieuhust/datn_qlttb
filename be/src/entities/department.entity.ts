@@ -18,6 +18,9 @@ export class Department {
     @Column('varchar', { name: 'manager', length: 255 })
     manager: string;
 
+    @Column('varchar', { name: 'mobile', length: 255 })
+    mobile: string;
+
     @Column('timestamp', { name: 'created_at', default: () => 'now()' })
 	created_at: Date;
 

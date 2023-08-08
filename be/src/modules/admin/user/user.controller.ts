@@ -35,7 +35,7 @@ export class UserController {
 	}
 
 	@Get('show/:id')
-	@UseGuards(new RoleGuard([1, 2]))
+	@UseGuards(new RoleGuard([1]))
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async findById(@Param('id') id: number) {
@@ -100,7 +100,7 @@ export class UserController {
 	}
 
 	@Get('')
-	// @UseGuards(new RoleGuard([1]))
+	@UseGuards(new RoleGuard([1,2,3]))
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
 	async getLists(@Request() req: any) {

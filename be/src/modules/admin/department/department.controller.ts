@@ -9,13 +9,13 @@ import { RoleGuard } from 'src/modules/auth/guards/role/role.guard';
 @Controller('department')
 // @UseGuards(new RoleGuard([1]))
 @UseGuards(JwtGuard)
-@ApiTags('Department')
+@ApiTags('Admin Department')
 export class DepartmentController {
 	constructor(
 		private departmentService: DepartmentService
 	) { }
 
-	@Get('list')
+	@Get('')
 	@UseGuards(new RoleGuard([1, 2, 3]))
 	@HttpCode(HttpStatus.OK)
 	@ApiResponse({ status: 200, description: 'success' })
@@ -65,6 +65,7 @@ export class DepartmentController {
 					department_name: createData.department_name,
 					address: createData.address,
 					manager: createData.manager,
+					mobile: createData.mobile,
 				};
 				return BaseResponse(
 					HTTP_STATUS.success,
@@ -94,6 +95,7 @@ export class DepartmentController {
 					department_name: updateData.department_name,
 					address: updateData.address,
 					manager: updateData.manager,
+					mobile: updateData.mobile,
 				};
 				return BaseResponse(HTTP_STATUS.success, await this.departmentService.updateDepartment(id, data), '', 'Updated successfully!');
 			}

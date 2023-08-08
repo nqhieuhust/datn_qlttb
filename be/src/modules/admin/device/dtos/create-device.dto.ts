@@ -100,6 +100,11 @@ export class CreateDeviceDto {
     @ApiProperty()
 	@IsOptional()
 	@IsString()
+    qrCode: string;
+
+    @ApiProperty()
+	@IsOptional()
+	@IsString()
     document: string;
 
 	@IsNumber()

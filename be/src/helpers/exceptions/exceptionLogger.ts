@@ -1,10 +1,13 @@
 import { BaseExceptionFilter } from "@nestjs/core";
 import { ArgumentsHost } from "@nestjs/common";
 import * as _ from 'lodash';
+import { log } from "console";
 
 export class ExceptionsLoggerFilter extends BaseExceptionFilter{
     catch(exception: any, host: ArgumentsHost) {
 		let message = exception.response.message;
+		// console.log(exception.response.message);
+		
 		if(Array.isArray(exception.response.message)) {
 			message = exception.response.message[0];
 		}

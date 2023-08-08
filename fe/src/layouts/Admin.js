@@ -21,7 +21,6 @@ function Admin ()
 	const mainPanel = React.useRef( null );
 
 	const role =localStorage.getItem('role');
-	console.log(localStorage);
 
 	const [ accessToken, setAccessToken ] = useState( localStorage.getItem( 'accessToken' ) || null );
 

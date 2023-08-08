@@ -23,7 +23,7 @@ const dashboardRoutes = [
   },
   {
     path: "/user",
-    name: "Người dùng",
+    name: "Nhân viên",
     icon: "nc-icon nc-circle-09",
     component: UserPage,
     layout: "/admin",
@@ -35,7 +35,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-bank",
     component: DepartmentPage,
     layout: "/admin",
-    role: [1, 2],
+    role: [1, 2, 3],
   },
 
   {
@@ -44,7 +44,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-delivery-fast",
     component: ProviderPage,
     layout: "/admin",
-    role: [1, 2],
+    role: [1, 2, 3],
   },
   {
     path: "/device",
@@ -60,7 +60,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-settings-90",
     component: AccessoryPage,
     layout: "/admin",
-    role: [1, 2, 3],
+    role: [1, 2],
   },
 
   {
@@ -69,7 +69,7 @@ const dashboardRoutes = [
     icon: "nc-icon nc-notes",
     component: ReportPage,
     layout: "/admin",
-    role: [2,3]
+    role: [1,2,3]
   },
 
   {

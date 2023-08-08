@@ -14,7 +14,7 @@ const TableDocument = ({ reportData, department_name, status }) => {
 
 const dv = reportData.map(device => device.department.department_name)
 
-// console.log(dv);
+console.log(department_name);
 
 
   const createTableHeader = () => {
@@ -27,17 +27,18 @@ const dv = reportData.map(device => device.department.department_name)
         <View style={[styles.tableColHeaderStyle, styles.col2]}>
           <Text style={styles.tableCellHeaderStyle}>Tên thiết bị</Text>
         </View>
-        {department_name === "all" || status && (
+        {((department_name === "all") || (status !== "default")) && (
           <View style={[styles.tableColHeaderStyle, styles.col5]}>
             <Text style={styles.tableCellHeaderStyle}>Khoa quản lý</Text>
           </View>
         )}
+      
 
         <View style={[styles.tableColHeaderStyle, styles.col3]}>
           <Text style={styles.tableCellHeaderStyle}>Người quản lý</Text>
         </View>
         
-        {department_name &&
+        {(department_name || status) &&
         <View style={[styles.tableColHeaderStyle, styles.col4]}>
           <Text style={styles.tableCellHeaderStyle}>Trạng thái</Text>
         </View>
@@ -47,7 +48,7 @@ const dv = reportData.map(device => device.department.department_name)
   };
 
   const createTableRow = (device) => {
-    console.log(device);
+    // console.log(device);
     return (
       <View style={styles.tableRowStyle}>
         <View style={[styles.firstTableColStyle, styles.row1]}>
@@ -58,7 +59,7 @@ const dv = reportData.map(device => device.department.department_name)
           <Text style={styles.tableCellStyle}>{device.device_name}</Text>
         </View>
 
-        {department_name === "all" || status && (
+        {((department_name === "all") || (status !== "default")) && (
           <View style={[styles.tableColStyle, styles.row5]}>
             <Text style={styles.tableCellStyle}>
               {device.department.department_name}
@@ -70,7 +71,7 @@ const dv = reportData.map(device => device.department.department_name)
           <Text style={styles.tableCellStyle}>{device.user.full_name}</Text>
         </View>
 
-        {department_name && 
+        {(department_name || status) && 
         <View style={[styles.tableColStyle, styles.row4]}>
           <Text style={styles.tableCellStyle}>
             {(() => {
@@ -84,7 +85,7 @@ const dv = reportData.map(device => device.department.department_name)
                 case 4:
                   return "Đang bảo hành";
                 default:
-                  return null;
+                  return "Đã thanh lý";
               }
             })()}
           </Text>
@@ -105,7 +106,18 @@ const dv = reportData.map(device => device.department.department_name)
 
             <Text style={{ fontFamily: "Roboto Regular" }}>
             {(() => {
-              switch (role) {         
+              switch (role) {     
+                case 1:
+                  if(department_name) {
+                    if(department_name === "all") {
+                      return "Phòng vật tư thiết bị"
+                    } else {
+                      return department_name
+                    }
+                  } else {
+                    return "Phòng vật tư thiết bị"
+                  }  
+                    
                 case 2:
                   if(department_name) {
                     if(department_name === "all") {

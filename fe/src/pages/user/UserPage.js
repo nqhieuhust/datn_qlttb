@@ -11,7 +11,7 @@ import { useDispatch } from "react-redux";
 import { toggleShowLoading } from "redux/actions/common-action";
 
 function UserPage() {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [loadingForm, setLoadingForm] = useState(false);
   const [loadingButton, setLoadingButton] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
@@ -81,21 +81,24 @@ function UserPage() {
   };
 
   const [form, setForm] = useState({});
+
+  console.log(form)
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
-
+  
+  useEffect(() => {
+    // paging.page = currentPage;
+    getUserList({ ...paging });
+  }, []);
+  
   useEffect(() => {
     getDepartmentList({ page: 1, page_size: 200 });
   }, []);
 
-  useEffect(() => {
-    paging.page = currentPage;
-    getUserList({ ...paging });
-  }, [currentPage]);
 
   const getUserList = async (filters) => {
     try {
-      setLoading(true);
+      // setLoading(true);
       dispatch(toggleShowLoading(true));
       const response = await userApi.getUsers(filters);
       console.log(response);
@@ -108,7 +111,7 @@ function UserPage() {
         message.error(response.message || "Lỗi! Vui lòng thử lại");
         dispatch(toggleShowLoading(false));
       }
-      setLoading(false);
+      // setLoading(false);
     } catch (e) {
       message.error(e.message || "Lỗi! Vui lòng thử lại");
       dispatch(toggleShowLoading(false));
@@ -308,9 +311,8 @@ function UserPage() {
       // if ( !form.mobile || form.mobile === '' ) newErrors.mobile = 'Mobile cannot be blank!';
       if (form.mobile && !form.mobile.match("[0-9]{10}"))
         newErrors.mobile = "Số điện thoại không hợp lệ!";
-      if (!form.email || form.email === "")
-        newErrors.email = "Email không được để trống!";
-      else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(form.email))
+
+      if (form.email &&(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(form.email)))
         newErrors.email = "Email không hợp lệ!";
     }
     if (type == 2) {
@@ -336,8 +338,8 @@ function UserPage() {
   };
 
   const roleConfig = [
-    { id: 1, value: "Quản trị hệ thống" },
-    { id: 2, value: "Quản lý phòng thiết bị" },
+    { id: 1, value: "Quản lý" },
+    { id: 2, value: "Nhân viên phòng thiết bị" },
     { id: 3, value: "Nhân viên Khoa/Phòng" },
   ];
 
@@ -373,7 +375,7 @@ function UserPage() {
                   className={"d-flex justify-content-between"}
                   as="h4"
                 >
-                  Danh sách người dùng
+                  Danh sách nhân viên
                   <button
                     onClick={() => setShowCre(true)}
                     type="button"
@@ -382,7 +384,9 @@ function UserPage() {
                   >
                     <span>Thêm mới</span>
                   </button>
+                  
                 </Card.Title>
+
                 <div className="my-4">
                   <FilterUser
                     departmentConfig={departmentConfig}
@@ -392,6 +396,7 @@ function UserPage() {
                     setParams={setParams}
                   />
                 </div>
+
               </Card.Header>
               <Card.Body className="table-wrapper-scroll-y my-custom-scrollbar">
                 <Table className="table-hover table-striped">
@@ -499,7 +504,7 @@ function UserPage() {
 
         <Modal show={showModal} dialogClassName="dialog-confirm">
           <Modal.Body className="d-flex justify-content-center">
-            Bạn có muốn xóa người dùng này không?
+            Bạn có muốn xóa nhân viên này không?
           </Modal.Body>
           <Modal.Footer className="d-flex justify-content-center">
             <button
@@ -521,7 +526,7 @@ function UserPage() {
 
         <Modal show={showCre} size="lg" dialogClassName="dialog-style">
           <Modal.Header style={{ justifyContent: "center" }}>
-            <div style={{ fontSize: 21 }}>Thêm mới người dùng</div>
+            <div style={{ fontSize: 21 }}>Thêm mới nhân viên</div>
           </Modal.Header>
           <Modal.Body>
             <Form>
@@ -690,7 +695,7 @@ function UserPage() {
                 <Form.Label>Địa chỉ:</Form.Label>
                 <Form.Control
                   type="text"
-                  placeholder="Nhập địa chỉ của người dùng"
+                  placeholder="Nhập địa chỉ của nhân viên"
                   onChange={(e) => setField("address", e.target.value)}
                   isInvalid={!!errors.address}
                 />
@@ -783,7 +788,7 @@ function UserPage() {
 
         <Modal show={showEdit} size="lg" dialogClassName="dialog-style">
           <Modal.Header style={{ justifyContent: "center" }}>
-            <div style={{ fontSize: 21 }}>Cập nhật thông tin người dùng</div>
+            <div style={{ fontSize: 21 }}>Cập nhật thông tin nhân viên</div>
           </Modal.Header>
           {loadingForm === true && (
             <div
@@ -990,7 +995,7 @@ function UserPage() {
                     <Form.Label>Địa chỉ:</Form.Label>
                     <Form.Control
                       type="text"
-                      placeholder="Nhập địa chỉ người dùng"
+                      placeholder="Nhập địa chỉ nhân viên"
                       value={address || ""}
                       onChange={(e) => {
                         setAddress(e.target.value);

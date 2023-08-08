@@ -15,7 +15,7 @@ export const TotalDasboardCpn = (props) => {
               </Col>
               <Col xs="7">
                 <div className="numbers">
-                  <p className="card-category">Người dùng</p>
+                  <p className="card-category">Nhân viên</p>
                   <Card.Title as="h4">{props.countNumber.users}</Card.Title>
                 </div>
               </Col>

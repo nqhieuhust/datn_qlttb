@@ -67,6 +67,7 @@ const ReportPage = () => {
     { value: 2, label: "Đang báo hỏng" },
     { value: 3, label: "Đang sửa chữa" },
     { value: 4, label: "Đang bảo hành" },
+    { value: 5, label: "Đã thanh lí" },
   ];
 
   

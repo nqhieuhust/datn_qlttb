@@ -3,14 +3,14 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class CreateProviderDto {
 
+	@ApiProperty()
     @IsString()
     @IsNotEmpty()
-	@ApiProperty()
     provider_name: string;
 
-    @IsString()
-	@IsOptional()
 	@ApiProperty()
+    @IsString()
+    @IsNotEmpty()
     address: string;
 
 	@ApiProperty()

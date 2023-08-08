@@ -12,7 +12,6 @@ import { USER_STATUS_ACTIVE, getSecond } from 'src/helpers/helper';
 import { JwtService } from '@nestjs/jwt';
 import { UpdateProfileDto } from './dtos/update-profile.dto';
 import { UserService } from '../admin/user/user.service';
-import { RegisterAdminDto } from './dtos/register-admin.dto';
 
 @Injectable()
 export class AuthService {
@@ -26,11 +25,13 @@ export class AuthService {
 	}
 
 	async login(loginDto: LoginDto) {
+		console.log(loginDto)
 		let user = await this.userRepo.findOne({
 			where: {
 				username: loginDto.username
 			}
 		});
+		// console.log("Đây là:",user);
 		if (!_.isEmpty(user)) {
 			const isPasswordMatching = await bcrypt.compare(
 				loginDto.password.trim(),
@@ -40,7 +41,7 @@ export class AuthService {
 				throw new BadRequestException({ code: 'LG0003', message: 'Mật khẩu không đúng' });
 			}
 			if (user.status !== USER_STATUS_ACTIVE) {
-				throw new BadRequestException({ code: 'LG0004', message: 'Tài khoản chưa được kích hoạt' });
+				throw new BadRequestException({ code: 'LG0004', message: 'Tài khoản đã ngừng hoạt động' });
 			}
 			const token = await this.genTokenByUser(user);
 			delete user.password;
@@ -54,7 +55,6 @@ export class AuthService {
 	async refreshToken(refreshDto: RefreshTokenDto) {
 
 	}
-
 	async genTokenByUser(user: any) {
 		const payload: any = {
 			username: user.username,
@@ -64,6 +64,7 @@ export class AuthService {
 		const expIn = Number(process.env.JWT_EXPIRATION_TIME) || 86000;
 		payload.expires_at = getSecond() + expIn;
 		const accessToken = await this.jwtService.signAsync(payload, { expiresIn: expIn });
+		// console.log(accessToken);
 
 		const expires_time = new Date().setSeconds(new Date().getSeconds() + expIn);
 		return {
@@ -86,13 +87,4 @@ export class AuthService {
 		return await this.userService.getById(userId);
 	}
 
-	async registerAdmin(data: RegisterAdminDto) {
-		data.role = 1;
-		data.status = 1;
-		data.password = await bcrypt.hash(data.password.trim(), 5);
-		const newData = await this.userRepo.create({...data, created_at: new Date(), updated_at: new Date()});
-		await this.userRepo.save(newData);
-		return newData;
-
-	}
 }
